@@ -1,0 +1,122 @@
+import React from "react";
+import { motion } from "framer-motion";
+import { MessageSquare, Target, Rocket, TrendingUp } from "lucide-react";
+
+const steps = [
+  {
+    icon: MessageSquare,
+    number: "01",
+    title: "שיחת ייעוץ ראשונית",
+    description: "נפגשים, מכירים את העסק שלכם, מבינים את המטרות והיעדים. זה חינם וללא התחייבות."
+  },
+  {
+    icon: Target,
+    number: "02",
+    title: "בניית אסטרטגיה",
+    description: "יוצרים תוכנית פעולה מדויקת ומותאמת אישית. קובעים KPIs, תקציבים וציר זמנים."
+  },
+  {
+    icon: Rocket,
+    number: "03",
+    title: "השקה וביצוע",
+    description: "מתחילים לעבוד! קמפיינים עולים, תוכן מתפרסם, האתר עולה לאוויר. אנחנו מטפלים בהכל."
+  },
+  {
+    icon: TrendingUp,
+    number: "04",
+    title: "אופטימיזציה מתמשכת",
+    description: "עוקבים אחרי התוצאות, משפרים ומייעלים כל הזמן. מדווחים לכם בשקיפות מלאה."
+  }
+];
+
+export default function ProcessSection() {
+  return (
+    <section className="py-24 md:py-32 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
+      
+      {/* Background effects */}
+      <div className="absolute top-1/3 left-1/3 w-[700px] h-[700px] bg-[#d4a853]/5 rounded-full blur-[200px]" />
+
+      <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="text-center mb-20"
+        >
+          <span className="text-[#d4a853]/60 text-sm tracking-[0.3em] uppercase">איך זה עובד</span>
+          <h2 className="text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">
+            התהליך שלנו
+          </h2>
+          <p className="text-white/40 mt-4 max-w-2xl mx-auto">
+            4 שלבים פשוטים מראש ועד סוף - בשקיפות מלאה
+          </p>
+        </motion.div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.15 }}
+              className="relative"
+            >
+              {/* Connector line - hidden on last item and on mobile */}
+              {index < steps.length - 1 && (
+                <div className="hidden lg:block absolute top-20 right-0 w-full h-px bg-gradient-to-l from-[#d4a853]/30 to-transparent transform translate-x-1/2 -z-10" />
+              )}
+
+              <div className="relative group">
+                {/* Number badge */}
+                <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-[#d4a853] to-[#b8934a] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(212,168,83,0.3)] group-hover:shadow-[0_0_50px_rgba(212,168,83,0.5)] transition-all duration-500">
+                  <span className="text-[#0a0a0a] font-bold text-lg">{step.number}</span>
+                </div>
+
+                <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-2xl p-8 border border-white/5 hover:border-[#d4a853]/20 transition-all duration-500 h-full">
+                  {/* Icon */}
+                  <div className="inline-flex p-4 bg-[#d4a853]/10 rounded-xl mb-6 group-hover:bg-[#d4a853]/20 transition-colors duration-500">
+                    <step.icon className="w-7 h-7 text-[#d4a853]" />
+                  </div>
+
+                  {/* Content */}
+                  <h3 className="text-xl font-semibold text-white mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-white/60 leading-relaxed text-sm">
+                    {step.description}
+                  </p>
+
+                  {/* Hover glow */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-[#d4a853]/0 to-[#d4a853]/0 group-hover:from-[#d4a853]/5 group-hover:to-transparent rounded-2xl transition-all duration-500" />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Call to action */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.6 }}
+          className="text-center mt-16"
+        >
+          <p className="text-white/70 text-lg mb-4">
+            מוכנים להתחיל?
+          </p>
+          <button
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#d4a853] to-[#b8934a] hover:from-[#e0b865] hover:to-[#c9a35a] text-[#0a0a0a] font-medium rounded-xl transition-all duration-300 shadow-[0_0_30px_rgba(212,168,83,0.3)] hover:shadow-[0_0_50px_rgba(212,168,83,0.5)]"
+          >
+            <MessageSquare className="w-5 h-5" />
+            בואו נתחיל את המסע
+          </button>
+        </motion.div>
+      </div>
+    </section>
+  );
+}
