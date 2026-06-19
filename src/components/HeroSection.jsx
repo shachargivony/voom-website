@@ -1,183 +1,180 @@
-import React from "react";
-import { motion } from "framer-motion";
-import { Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { ArrowDown, Zap } from "lucide-react";
 import logo from "../../Logo.png";
 
-export default function HeroSection() {
-  const scrollToContact = () => {
-    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+// Letter animation variants
+const letterVariants = {
+  hidden: { y: 60, opacity: 0, scale: 0.4, rotate: -12 },
+  visible: (i) => ({
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.9,
+      ease: [0.22, 1, 0.36, 1], // custom easeOutQuint
+    },
+  }),
+};
+
+const fadeUp = {
+  hidden: { y: 30, opacity: 0 },
+  visible: (delay = 0) => ({
+    y: 0,
+    opacity: 1,
+    transition: { delay, duration: 0.8, ease: "easeOut" },
+  }),
+};
+
+// Magnetic button hook
+function MagneticButton({ children, className, onClick }) {
+  const ref = useRef(null);
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const springX = useSpring(x, { stiffness: 300, damping: 30 });
+  const springY = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const handleMove = (e) => {
+    const rect = ref.current.getBoundingClientRect();
+    const cx = e.clientX - rect.left - rect.width / 2;
+    const cy = e.clientY - rect.top - rect.height / 2;
+    x.set(cx * 0.3);
+    y.set(cy * 0.3);
   };
 
-  const scrollToServices = () => {
-    document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' });
+  const handleLeave = () => {
+    x.set(0);
+    y.set(0);
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
-      {/* Enhanced animated background */}
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#d4a853]/10 via-[#0a0a0a] to-[#0a0a0a]" />
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#d4a853]/10 rounded-full blur-[150px] animate-pulse" />
-        <div className="absolute bottom-0 right-1/4 w-[800px] h-[800px] bg-[#d4a853]/5 rounded-full blur-[180px] animate-pulse delay-1000" />
-        
-        {/* Animated particles */}
-        {[...Array(20)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-[#d4a853]/30 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -30, 0],
-              opacity: [0.3, 0.8, 0.3],
-              scale: [1, 1.5, 1],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
-      </div>
-
-      {/* Sophisticated grid pattern */}
-      <div 
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: `
-            linear-gradient(#d4a853 1px, transparent 1px),
-            linear-gradient(90deg, #d4a853 1px, transparent 1px),
-            linear-gradient(#d4a853 0.5px, transparent 0.5px),
-            linear-gradient(90deg, #d4a853 0.5px, transparent 0.5px)
-          `,
-          backgroundSize: '100px 100px, 100px 100px, 20px 20px, 20px 20px'
-        }}
-      />
-
-      {/* Logo - Small, top corner */}
-      <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ duration: 1, delay: 0.3 }}
-        className="absolute top-4 right-4 md:top-8 md:right-8 z-20"
-      >
-        <img 
-          src={logo}
-          alt="VOOM"
-          className="w-12 h-12 md:w-16 md:h-16 object-contain drop-shadow-[0_0_20px_rgba(212,168,83,0.4)]"
-        />
-      </motion.div>
-
-      <div className="relative z-10 text-center px-4 max-w-6xl mx-auto">
-        {/* VOOM Logo Text - Center, Top */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="mb-6 md:mb-8"
-        >
-          <motion.h1
-            className="text-6xl md:text-8xl lg:text-9xl font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-[#d4a853] via-[#f0d78a] to-[#d4a853] animate-gradient"
-            animate={{
-              textShadow: [
-                "0 0 20px rgba(212,168,83,0.5)",
-                "0 0 40px rgba(212,168,83,0.8)",
-                "0 0 20px rgba(212,168,83,0.5)",
-              ]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: "easeInOut"
-            }}
-          >
-            VOOM
-          </motion.h1>
-        </motion.div>
-
-        <motion.h2
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-3xl md:text-5xl lg:text-6xl font-light tracking-tight text-white mb-6 leading-tight"
-        >
-          השיווק שיביא לך
-          <br className="md:hidden" />
-          <br className="hidden md:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#d4a853] via-[#f0d78a] to-[#d4a853] animate-gradient">
-            תוצאות אמיתיות
-          </span>
-        </motion.h2>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="space-y-4 md:space-y-6 mb-8 md:mb-12 px-2"
-        >
-          <p className="text-lg md:text-2xl lg:text-3xl text-white/80 font-light leading-relaxed max-w-4xl mx-auto">
-            אנחנו לא עוד חברת שיווק
-            <br className="hidden md:block" />
-            אנחנו <span className="text-[#d4a853]">המפתח</span> שיפתח לך את השוק
-          </p>
-          <p className="text-sm md:text-base lg:text-lg text-white/40 max-w-2xl mx-auto leading-relaxed">
-            מעל 100,000 לידים חמים, קמפיינים ממוקדים
-            <br className="hidden md:block" />
-            ואתרים שממירים מבקרים ללקוחות משלמים
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-3 md:gap-4 px-4"
-        >
-          <Button
-            onClick={scrollToContact}
-            className="group relative w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 bg-gradient-to-r from-[#d4a853] to-[#b8934a] hover:from-[#e0b865] hover:to-[#c9a35a] text-[#0a0a0a] font-medium text-base md:text-lg rounded-xl transition-all duration-300 shadow-[0_0_30px_rgba(212,168,83,0.3)] hover:shadow-[0_0_50px_rgba(212,168,83,0.5)] border-2 border-[#d4a853]/50"
-          >
-            <span className="relative z-10">בואו נתחיל</span>
-            <div className="absolute inset-0 rounded-xl bg-gradient-to-r from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          </Button>
-          
-          <Button
-            onClick={scrollToServices}
-            variant="outline"
-            className="w-full sm:w-auto px-6 md:px-8 py-4 md:py-6 bg-transparent border-2 border-[#d4a853]/30 hover:border-[#d4a853] text-[#d4a853] hover:bg-[#d4a853]/10 font-medium text-base md:text-lg rounded-xl transition-all duration-300"
-          >
-            גלו את השירותים
-          </Button>
-        </motion.div>
-
-        {/* Statistics */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 1.3 }}
-          className="grid grid-cols-3 gap-4 md:gap-8 lg:gap-12 mt-12 md:mt-20 max-w-3xl mx-auto px-4"
-        >
-          {[
-            { number: "100K+", label: "חשיפה יומית" },
-            { number: "500+", label: "לקוחות מרוצים" },
-            { number: "95%", label: "שביעות רצון" }
-          ].map((stat, index) => (
-            <div key={index} className="text-center">
-              <div className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#d4a853] mb-1 md:mb-2">{stat.number}</div>
-              <div className="text-xs md:text-sm text-white/50 tracking-wide leading-tight">{stat.label}</div>
-            </div>
-          ))}
-        </motion.div>
-
-      </div>
-
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0a0a0a] to-transparent pointer-events-none" />
-    </section>
+    <motion.button
+      ref={ref}
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      className={className}
+    >
+      {children}
+    </motion.button>
   );
 }
 
+export default function HeroSection() {
+  const scrollToTachles = () => {
+    document.getElementById("tachles-section")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToContact = () => {
+    document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <section
+      className="relative min-h-[70vh] sm:min-h-[80vh] md:min-h-[90vh] flex flex-col items-center justify-center overflow-hidden bg-[#070707] py-12 sm:py-16 md:py-20 px-4 select-none"
+      dir="rtl"
+    >
+      {/* Background radial glow */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4a853]/5 via-[#070707] to-black" />
+        <motion.div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4a853]/5 rounded-full blur-[160px]"
+          animate={{ scale: [0.95, 1.08, 0.95], opacity: [0.4, 0.7, 0.4] }}
+          transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+        />
+      </div>
+
+      {/* Watermark logo */}
+      <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none overflow-hidden">
+        <motion.img
+          src={logo}
+          alt="VOOM Watermark"
+          initial={{ scale: 0.85, opacity: 0 }}
+          animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.04, 0.08, 0.04] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="w-[450px] sm:w-[650px] md:w-[850px] h-auto object-contain filter blur-[1px] drop-shadow-[0_0_60px_rgba(212,168,83,0.12)]"
+        />
+      </div>
+
+      {/* Foreground content */}
+      <div className="relative z-10 max-w-4xl mx-auto w-full text-center flex flex-col items-center">
+
+        {/* VOOM — letter-by-letter entrance */}
+        <div className="mb-4 md:mb-6 overflow-hidden flex" dir="ltr">
+          {"VOOM".split("").map((letter, i) => (
+            <motion.span
+              key={i}
+              custom={i}
+              variants={letterVariants}
+              initial="hidden"
+              animate="visible"
+              className="voom-animate text-7xl md:text-9xl font-black tracking-wide font-sans inline-block"
+              style={{ display: "inline-block" }}
+            >
+              {letter}
+            </motion.span>
+          ))}
+        </div>
+
+        {/* Main headline */}
+        <motion.h2
+          custom={0.45}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-2xl md:text-4xl font-black text-white/95 leading-tight"
+        >
+          הלקוחות הבאים שלך כבר מחכים לך
+        </motion.h2>
+
+        {/* Subtitle */}
+        <motion.p
+          custom={0.6}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="text-white/60 text-sm md:text-base font-medium mt-3 md:mt-4 max-w-xl leading-relaxed"
+        >
+          מעטפת שיווק 360° — מוואטסאפ עד רשתות חברתיות, מאתרים עד מיתוג.{" "}
+          <span className="text-[#f0d78a] font-bold">כל הפתרונות במקום אחד</span>, מובילים לתוצאות מדידות.
+        </motion.p>
+
+        {/* CTA Buttons — magnetic effect */}
+        <motion.div
+          custom={0.8}
+          variants={fadeUp}
+          initial="hidden"
+          animate="visible"
+          className="flex items-center justify-center gap-4 mt-6 sm:mt-8 md:mt-10 flex-wrap"
+        >
+          <MagneticButton
+            onClick={scrollToContact}
+            className="px-8 py-3.5 bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a] text-black font-extrabold text-xs md:text-sm rounded-xl shadow-[0_0_15px_rgba(212,168,83,0.25)] border border-[#d4a853]/35 flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <Zap className="w-4 h-4" />
+            קבל הצעה עכשיו
+          </MagneticButton>
+
+          <MagneticButton
+            onClick={scrollToTachles}
+            className="px-8 py-3.5 bg-transparent border border-white/15 hover:border-[#d4a853]/55 text-white font-bold text-xs md:text-sm rounded-xl transition-colors duration-300 flex items-center justify-center cursor-pointer"
+          >
+            תכלס מה תקבל
+          </MagneticButton>
+        </motion.div>
+      </div>
+
+      {/* Scroll arrow */}
+      <div
+        className="absolute bottom-6 left-1/2 -translate-x-1/2 animate-bounce cursor-pointer z-10"
+        onClick={scrollToContact}
+      >
+        <ArrowDown className="w-5 h-5 text-[#d4a853]" />
+      </div>
+    </section>
+  );
+}

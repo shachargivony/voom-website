@@ -2,10 +2,6 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Send, CheckCircle, Loader2 } from "lucide-react";
 import { base44 } from "@/api/base44Client";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
 
 const serviceOptions = [
   { value: "whatsapp_marketing", label: "קידום בוואטסאפ" },
@@ -20,7 +16,7 @@ export default function ContactSection() {
     name: "",
     phone: "",
     email: "",
-    service: "",
+    service: "whatsapp_marketing",
     message: ""
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -29,21 +25,23 @@ export default function ContactSection() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    await base44.entities.Lead.create(formData);
-    
+    try {
+      await base44.entities.Lead.create(formData);
+      setIsSubmitted(true);
+      setFormData({ name: "", phone: "", email: "", service: "whatsapp_marketing", message: "" });
+    } catch (err) {
+      console.error(err);
+    }
     setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: "", phone: "", email: "", service: "", message: "" });
   };
 
   return (
-    <section id="contact" className="py-24 md:py-32 bg-[#0a0a0a] relative overflow-hidden">
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
-      <div className="absolute bottom-1/2 right-0 w-[500px] h-[500px] bg-[#d4a853]/3 rounded-full blur-[150px]" />
-      
-      <div className="max-w-4xl mx-auto px-4 md:px-8 relative">
+    <section id="contact" className="py-24 bg-[#070707] relative overflow-hidden" dir="rtl">
+      {/* Decorative background gradients */}
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
+      <div className="absolute bottom-1/4 right-0 w-[500px] h-[500px] bg-[#d4a853]/3 rounded-full blur-[140px] pointer-events-none" />
+
+      <div className="max-w-3xl mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -51,12 +49,11 @@ export default function ContactSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <span className="text-[#d4a853] text-base md:text-lg font-semibold tracking-[0.12em] drop-shadow-[0_0_14px_rgba(212,168,83,0.35)]">בואו נדבר!</span>
-          <h2 className="text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">
-            יצירת קשר
+          <h2 className="text-3xl md:text-5xl font-black text-white tracking-wide">
+            מוכנים להביא לקוחות חדשים?
           </h2>
-          <p className="text-white/40 mt-4 max-w-md mx-auto">
-            השאירו פרטים ונחזור אליכם תוך שעות ספורות
+          <p className="text-white/50 mt-3 text-sm md:text-base">
+            השאירו פרטים ונחזור אליכם לשיחת אסטרטגיה קצרה — ללא עלות וללא התחייבות
           </p>
         </motion.div>
 
@@ -65,115 +62,113 @@ export default function ContactSection() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.2 }}
+          className="glass-card rounded-[2.5rem] p-8 md:p-12 border border-[#d4a853]/15 relative overflow-hidden bg-black/60 backdrop-blur-md"
         >
+          <div className="absolute -top-24 -left-24 w-48 h-48 bg-[#d4a853]/5 rounded-full blur-3xl pointer-events-none" />
+
           {isSubmitted ? (
-            <div className="text-center py-16">
+            <div className="text-center py-12 flex flex-col items-center justify-center">
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 transition={{ type: "spring", duration: 0.6 }}
-                className="w-20 h-20 mx-auto mb-6 bg-[#d4a853]/20 rounded-full flex items-center justify-center"
+                className="w-16 h-16 mx-auto mb-6 bg-[#d4a853]/20 rounded-full flex items-center justify-center"
               >
-                <CheckCircle className="w-10 h-10 text-[#d4a853]" />
+                <CheckCircle className="w-8 h-8 text-[#d4a853]" />
               </motion.div>
-              <h3 className="text-2xl text-white mb-3">תודה רבה!</h3>
-              <p className="text-white/50">הפרטים התקבלו, ניצור קשר בהקדם</p>
-              <Button 
+              <h3 className="text-2xl font-bold text-white mb-2">תודה רבה!</h3>
+              <p className="text-white/60 text-sm">הפרטים התקבלו, ניצור קשר בהקדם האפשרי.</p>
+              <button 
                 onClick={() => setIsSubmitted(false)}
-                variant="ghost"
-                className="mt-6 text-[#d4a853] hover:text-[#d4a853]/80 hover:bg-[#d4a853]/10"
+                className="mt-6 text-sm text-[#d4a853] hover:underline"
               >
                 שליחת טופס נוסף
-              </Button>
+              </button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid md:grid-cols-2 gap-6">
+            <form onSubmit={handleSubmit} className="space-y-6 flex flex-col">
+              <div className="grid md:grid-cols-2 gap-6 w-full">
                 <div>
-                  <label className="block text-white/60 text-sm mb-2">שם מלא *</label>
-                  <Input
+                  <label className="block text-white/70 text-xs font-bold mb-2 pr-1">שם מלא *</label>
+                  <input
                     required
+                    type="text"
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="הזן את שמך"
-                    className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30 focus:border-[#d4a853]/50 h-12 rounded-xl"
+                    className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:border-[#d4a853]/50 focus:outline-none text-sm transition-all"
                   />
                 </div>
                 <div>
-                  <label className="block text-white/60 text-sm mb-2">טלפון *</label>
-                  <Input
+                  <label className="block text-white/70 text-xs font-bold mb-2 pr-1">מספר טלפון *</label>
+                  <input
                     required
                     type="tel"
                     value={formData.phone}
                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                     placeholder="050-0000000"
-                    className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30 focus:border-[#d4a853]/50 h-12 rounded-xl"
+                    className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:border-[#d4a853]/50 focus:outline-none text-sm transition-all text-right"
                     dir="ltr"
                   />
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
+              <div className="grid md:grid-cols-2 gap-6 w-full">
                 <div>
-                  <label className="block text-white/60 text-sm mb-2">אימייל</label>
-                  <Input
+                  <label className="block text-white/70 text-xs font-bold mb-2 pr-1">כתובת אימייל</label>
+                  <input
                     type="email"
                     value={formData.email}
                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     placeholder="email@example.com"
-                    className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30 focus:border-[#d4a853]/50 h-12 rounded-xl"
+                    className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:border-[#d4a853]/50 focus:outline-none text-sm transition-all text-right"
                     dir="ltr"
                   />
                 </div>
                 <div>
-                  <label className="block text-white/60 text-sm mb-2">שירות מבוקש</label>
-                  <Select 
-                    value={formData.service} 
-                    onValueChange={(value) => setFormData({ ...formData, service: value })}
+                  <label className="block text-white/70 text-xs font-bold mb-2 pr-1">שירות מבוקש</label>
+                  <select
+                    value={formData.service}
+                    onChange={(e) => setFormData({ ...formData, service: e.target.value })}
+                    className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3.5 text-white placeholder-white/30 focus:border-[#d4a853]/50 focus:outline-none text-sm transition-all text-right"
+                    dir="rtl"
                   >
-                    <SelectTrigger className="bg-[#1a1a1a] border-white/10 text-white h-12 rounded-xl focus:ring-[#d4a853]/50">
-                      <SelectValue placeholder="בחר שירות" />
-                    </SelectTrigger>
-                    <SelectContent className="bg-[#1a1a1a] border-white/10">
-                      {serviceOptions.map((option) => (
-                        <SelectItem 
-                          key={option.value} 
-                          value={option.value}
-                          className="text-white hover:bg-[#d4a853]/20 focus:bg-[#d4a853]/20"
-                        >
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                    {serviceOptions.map((option) => (
+                      <option key={option.value} value={option.value} className="bg-[#111] text-white">
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
 
-              <div>
-                <label className="block text-white/60 text-sm mb-2">הודעה</label>
-                <Textarea
+              <div className="w-full">
+                <label className="block text-white/70 text-xs font-bold mb-2 pr-1">הודעה (אופציונלי)</label>
+                <textarea
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   placeholder="ספר לנו קצת על העסק שלך..."
                   rows={4}
-                  className="bg-[#1a1a1a] border-white/10 text-white placeholder:text-white/30 focus:border-[#d4a853]/50 rounded-xl resize-none"
+                  className="w-full bg-[#111] border border-white/10 rounded-xl px-4 py-3 text-white placeholder-white/30 focus:border-[#d4a853]/50 focus:outline-none text-sm transition-all resize-none"
                 />
               </div>
 
-              <Button
+              <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full h-14 bg-gradient-to-r from-[#d4a853] to-[#b8934a] hover:from-[#e0b865] hover:to-[#c9a35a] text-[#0a0a0a] font-medium text-lg rounded-xl transition-all duration-300 shadow-[0_0_30px_rgba(212,168,83,0.2)] hover:shadow-[0_0_40px_rgba(212,168,83,0.3)]"
+                whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(212, 168, 83, 0.4)" }}
+                whileTap={{ scale: 0.98 }}
+                className="w-full max-w-sm mx-auto h-12 bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a] hover:from-[#f4e2bb] hover:to-[#c49a45] text-black font-black rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(212, 168, 83, 0.2)] hover:shadow-[0_0_35px_rgba(212, 168, 83, 0.4)] flex items-center justify-center gap-2 disabled:opacity-50"
               >
                 {isSubmitting ? (
                   <Loader2 className="w-5 h-5 animate-spin" />
                 ) : (
                   <>
-                    <Send className="w-5 h-5 ml-2" />
-                    שליחה
+                    <span>שליחת פרטים לתיאום שיחה</span>
+                    <Send className="w-4 h-4 text-black" />
                   </>
                 )}
-              </Button>
+              </motion.button>
             </form>
           )}
         </motion.div>
@@ -181,4 +176,3 @@ export default function ContactSection() {
     </section>
   );
 }
-

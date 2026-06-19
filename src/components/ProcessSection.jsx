@@ -1,123 +1,207 @@
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { MessageSquare, Target, Rocket, TrendingUp } from "lucide-react";
+import { MessageSquare, Target, Rocket, TrendingUp, ChevronLeft } from "lucide-react";
 
 const steps = [
   {
     icon: MessageSquare,
     number: "01",
-    title: "שיחת ייעוץ ראשונית",
-    description: "מכירים את העסק שלכם, מבינים את המטרות והיעדים. זה חינם וללא התחייבות."
+    title: "שיחת ייעוץ ותיאום ציפיות",
+    description: "נכיר את העסק, המטרות העסקיות וקהל היעד שלכם באופן ממוקד.",
+    color: "from-[#d4a853]/20 to-transparent",
+    deliverables: [
+      "אבחון שיווקי ועסקי מקיף",
+      "הגדרת קהלי יעד מדויקים",
+      "מיפוי מנועי צמיחה וצווארי בקבוק"
+    ]
   },
   {
     icon: Target,
     number: "02",
-    title: "בניית אסטרטגיה",
-    description: "יוצרים תוכנית פעולה מדויקת ומותאמת אישית. קובעים מטרות, תקציבים וציר זמנים."
+    title: "בניית אסטרטגיה מנצחת",
+    description: "נגבש תוכנית פעולה מותאמת אישית עם יעדים מדידים ותקציב מדויק.",
+    color: "from-[#d4a853]/15 to-transparent",
+    deliverables: [
+      "תוכנית עבודה מוגדרת חודשית",
+      "קריאייטיב וקונספט שיווקי ייחודי",
+      "חלוקת תקציב ומדיה אופטימלית"
+    ]
   },
   {
     icon: Rocket,
     number: "03",
-    title: "השקה וביצוע",
-    description: "מתחילים לעבוד! קמפיינים עולים, תוכן מתפרסם, האתר עולה לאוויר. אנחנו מטפלים בהכל."
+    title: "השקה והרצת קמפיינים",
+    description: "נעלה את הקמפיינים, האתרים והאוטומציות לאוויר באופן מדויק.",
+    color: "from-[#d4a853]/20 to-transparent",
+    deliverables: [
+      "הקמת קמפיינים ודפי נחיתה ממירי תנועה",
+      "עיצוב מודעות וכתיבת קופי מדויק",
+      "חיבור לאוטומציות ומערכות CRM"
+    ]
   },
   {
     icon: TrendingUp,
     number: "04",
-    title: "אופטימיזציה מתמשכת",
-    description: "עוקבים אחרי התוצאות, משפרים ומייעלים כל הזמן. מדווחים לכם בשקיפות מלאה."
+    title: "אופטימיזציה ושיפור המרות",
+    description: "נעקוב, ננתח ונשפר את הביצועים באופן קבוע כדי למקסם תוצאות.",
+    color: "from-[#d4a853]/15 to-transparent",
+    deliverables: [
+      "אנליזה שוטפת ודוחות ביצועים מפורטים",
+      "מבחני A/B לקופי ועיצוב קריאייטיב",
+      "שיפור מתמיד של יחס ההמרה (CRO)"
+    ]
   }
 ];
 
 export default function ProcessSection() {
-  return (
-    <section className="py-24 md:py-32 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
-      
-      {/* Background effects */}
-      <div className="absolute top-1/3 left-1/3 w-[700px] h-[700px] bg-[#d4a853]/5 rounded-full blur-[200px]" />
+  const [hoveredCard, setHoveredCard] = useState(null);
 
-      <div className="max-w-7xl mx-auto px-4 md:px-8 relative">
+  return (
+    <section id="process" className="py-24 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4a853]/3 rounded-full blur-[180px] pointer-events-none" />
+
+      <div className="max-w-6xl mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-20"
+          className="text-center mb-16"
         >
-          <span className="text-[#d4a853] text-base md:text-lg font-semibold tracking-[0.12em] drop-shadow-[0_0_14px_rgba(212,168,83,0.35)]">איך זה עובד?</span>
-          <h2 className="text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">
-            התהליך שלנו
-          </h2>
-          <p className="text-white/40 mt-4 max-w-2xl mx-auto">
-            4 שלבים פשוטים - בשקיפות מלאה
+          <h2 className="text-3xl md:text-5xl font-black text-white">תהליך העבודה שלנו</h2>
+          <p className="text-white/50 text-sm md:text-base mt-2">
+            בלי עיכובים ובלי בירוקרטיה מיותרת. ארבעה שלבים פשוטים לתוצאות בשטח.
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
+        {/* Steps grid with animated connectors */}
+        <div className="relative">
+
+          {/* Animated connector line (desktop only) */}
+          <div className="hidden lg:block absolute top-[52px] right-[12.5%] left-[12.5%] h-px z-0 overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-l from-[#d4a853]/30 via-[#d4a853]/60 to-[#d4a853]/30" />
+            {/* Traveling glow dot */}
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.15 }}
-              className="relative"
-            >
-              {/* Connector line - hidden on last item and on mobile */}
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-20 right-0 w-full h-px bg-gradient-to-l from-[#d4a853]/30 to-transparent transform translate-x-1/2 -z-10" />
-              )}
+              className="absolute top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-[#d4a853] blur-md opacity-80"
+              animate={{ right: ["0%", "100%"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 0.5 }}
+            />
+            <motion.div
+              className="absolute top-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#fff8d6]"
+              animate={{ right: ["0%", "100%"] }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear", repeatDelay: 0.5 }}
+            />
+          </div>
 
-              <div className="relative group">
-                {/* Number badge */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-gradient-to-br from-[#d4a853] to-[#b8934a] rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(212,168,83,0.3)] group-hover:shadow-[0_0_50px_rgba(212,168,83,0.5)] transition-all duration-500">
-                  <span className="text-[#0a0a0a] font-bold text-lg">{step.number}</span>
-                </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {steps.map((step, idx) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.12 }}
+                  onMouseEnter={() => setHoveredCard(idx)}
+                  onMouseLeave={() => setHoveredCard(null)}
+                  onClick={() => setHoveredCard(hoveredCard === idx ? null : idx)}
+                  className="relative group perspective-1000 w-full h-[210px] sm:h-[220px] md:h-[270px] lg:h-[300px] cursor-pointer"
+                >
+                  <motion.div
+                    animate={{ rotateY: hoveredCard === idx ? 180 : 0 }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    style={{ transformStyle: "preserve-3d" }}
+                    className="preserve-3d w-full h-full relative"
+                  >
+                    {/* CARD FRONT */}
+                    <div className="backface-hidden absolute inset-0 w-full h-full glass-card rounded-2xl p-4 sm:p-5 md:p-6 border border-white/5 group-hover:border-[#d4a853]/40 transition-all duration-300 group-hover:shadow-[0_0_30px_rgba(212,168,83,0.12)] flex flex-col justify-between">
+                      <div>
+                        {/* Giant background step number */}
+                        <div
+                          className="step-number-bg absolute top-3 left-4 text-5xl font-black text-white pointer-events-none select-none"
+                          style={{ zIndex: 0 }}
+                        >
+                          {step.number}
+                        </div>
 
-                <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-2xl p-8 border border-white/5 hover:border-[#d4a853]/20 transition-all duration-500 h-full">
-                  {/* Icon */}
-                  <div className="inline-flex p-4 bg-[#d4a853]/10 rounded-xl mb-6 group-hover:bg-[#d4a853]/20 transition-colors duration-500">
-                    <step.icon className="w-7 h-7 text-[#d4a853]" />
-                  </div>
+                        {/* Icon circle with glow */}
+                        <div className="relative z-10 w-10 h-10 md:w-11 md:h-11 bg-[#d4a853]/10 border border-[#d4a853]/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3 md:mb-5 group-hover:bg-[#d4a853]/20 group-hover:border-[#d4a853]/50 group-hover:shadow-[0_0_18px_rgba(212,168,83,0.25)] transition-all duration-300">
+                          <Icon className="w-5 h-5 text-[#d4a853]" />
+                        </div>
 
-                  {/* Content */}
-                  <h3 className="text-xl font-semibold text-white mb-3">
-                    {step.title}
-                  </h3>
-                  <p className="text-white/60 leading-relaxed text-sm">
-                    {step.description}
-                  </p>
+                        {/* Step badge */}
+                        <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-[#d4a853]/70 mb-1 sm:mb-2 block">
+                          שלב {step.number}
+                        </span>
 
-                  {/* Hover glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#d4a853]/0 to-[#d4a853]/0 group-hover:from-[#d4a853]/5 group-hover:to-transparent rounded-2xl transition-all duration-500" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
+                        <h3 className="relative z-10 text-sm sm:text-base md:text-lg font-black text-white mb-1 sm:mb-2 leading-snug">{step.title}</h3>
+                        <p className="relative z-10 text-white/55 text-[11px] sm:text-xs md:text-sm leading-relaxed">{step.description}</p>
+                      </div>
+
+                      {/* Bottom progress indicator */}
+                      <div className="relative z-10 mt-2 sm:mt-3 md:mt-5 pt-2 sm:pt-3 md:pt-4 border-t border-white/5">
+                        <div className="flex gap-1">
+                          {steps.map((_, i) => (
+                            <div
+                              key={i}
+                              className={`h-0.5 flex-1 rounded-full transition-all duration-300 ${
+                                i <= idx ? "bg-gradient-to-r from-[#d4a853] to-[#f0d78a]" : "bg-white/10"
+                              }`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* CARD BACK */}
+                    <div 
+                      className="backface-hidden absolute inset-0 w-full h-full glass-card rounded-2xl p-4 sm:p-5 md:p-6 border border-[#d4a853]/40 bg-[#0f0d08]/95 flex flex-col justify-between"
+                      style={{ transform: "rotateY(180deg)" }}
+                    >
+                      <div className="flex flex-col h-full justify-between">
+                        <div>
+                          {/* Title with small icon */}
+                          <div className="flex items-center gap-2 mb-1.5 sm:mb-2 md:mb-4">
+                            <div className="w-6 h-6 bg-[#d4a853]/20 rounded-md flex items-center justify-center">
+                              <Icon className="w-3.5 h-3.5 text-[#d4a853]" />
+                            </div>
+                            <span className="text-[#d4a853] text-[9px] sm:text-[10px] font-black tracking-wider uppercase">מה מקבלים בפועל?</span>
+                          </div>
+
+                          <h4 className="text-white text-xs sm:text-sm md:text-base font-black mb-1.5 sm:mb-2 md:mb-4 leading-tight">{step.title}</h4>
+
+                          <ul className="space-y-1 sm:space-y-2 md:space-y-3 pr-2 border-r border-[#d4a853]/20 text-right" dir="rtl">
+                            {step.deliverables.map((item, i) => (
+                              <li key={i} className="text-white/80 text-[10px] sm:text-[11px] md:text-sm flex items-start gap-2">
+                                <span className="text-[#d4a853] font-bold text-xs select-none">✦</span>
+                                <span className="leading-tight">{item}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        {/* Interactive hint */}
+                        <div className="text-[9px] md:text-[10px] text-white/30 text-center pt-1.5 sm:pt-2 md:pt-3 border-t border-white/5">
+                          לחצו או הזיזו את העכבר לחזרה
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+
+                  {/* Arrow between cards (desktop) */}
+                  {idx < steps.length - 1 && (
+                    <div className="hidden lg:flex absolute -left-3 top-[52px] -translate-y-1/2 z-20 items-center justify-center w-6">
+                      <ChevronLeft className="w-4 h-4 text-[#d4a853]/50 group-hover:text-[#d4a853] transition-colors" />
+                    </div>
+                  )}
+                </motion.div>
+              );
+            })}
+          </div>
         </div>
-
-        {/* Call to action */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="text-center mt-16"
-        >
-          <p className="text-white/70 text-lg mb-4">
-            מוכנים להתחיל?
-          </p>
-          <button
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-            className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#d4a853] to-[#b8934a] hover:from-[#e0b865] hover:to-[#c9a35a] text-[#0a0a0a] font-medium rounded-xl transition-all duration-300 shadow-[0_0_30px_rgba(212,168,83,0.3)] hover:shadow-[0_0_50px_rgba(212,168,83,0.5)]"
-          >
-            <MessageSquare className="w-5 h-5" />
-            בואו נתחיל את המסע
-          </button>
-        </motion.div>
       </div>
     </section>
   );
 }
-

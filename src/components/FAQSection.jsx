@@ -1,139 +1,89 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const faqs = [
   {
     question: "כמה זמן לוקח לראות תוצאות?",
-    answer: "תלוי בסוג השירות והמטרות. קידום בוואטסאפ יכול להתחיל להביא תוצאות די מהר. בניית נוכחות דיגיטלית חזקה דורשת זמן וסבלנות. אנחנו עובדים כל הזמן על שיפור ואופטימיזציה."
+    answer: "קידום בוואטסאפ מניב לידים חמים כבר בימים הראשונים להרצה. קמפיינים ממומנים ברשתות ובניית מותג לוקחים בין שבועיים לחודש להגעה לאופטימיזציה מלאה."
   },
   {
     question: "האם אני צריך להיות מעורב בתהליך?",
-    answer: "בהתחלה יש צורך במתן פרטים וחומרים בסיסיים על העסק, לאחר מכן, אנחנו נדאג לכל מה שהעסק שלך צריך. כמובן שנעדכן אותך באופן שוטף על התוצאות."
+    answer: "בתחילת הדרך נדרש אפיון קצר וקבלת חומרי גלם בסיסיים. לאחר מכן אנחנו לוקחים אחריות מלאה על הקריאייטיב, הניהול, הכתיבה והאופטימיזציה, ומעדכנים אתכם בתוצאות."
   },
   {
-    question: "מה כלול במחיר? האם יש עלויות נוספות?",
-    answer: "המחיר כולל הכול - ניהול, תוכן, אופטימיזציה ודיווחים. העלות הנוספת היחידה היא תקציב פרסום בקמפיינים ממומנים שעובר ישירות לפלטפורמות. אנחנו מנהלים אותו בצורה חכמה על מנת למקסם תוצאות."
+    question: "האם יש התחייבות לטווח ארוך?",
+    answer: "חד משמעית לא. אנחנו עובדים במותאם חודשי ללא התחייבות. אנחנו מאמינים שהתוצאות והשירות שלנו הם שיגרמו לכם להישאר איתנו, לא חוזים כובלים."
   },
   {
-    question: "האם יש התחייבות לתקופה מסוימת?",
-    answer: "אין התחייבות. אפשר להפסיק בסוף כל חודש. אנחנו מאמינים שהתוצאות שלנו יגרמו לכם לרצות להישאר, לא חוזה."
-  },
-  {
-    question: "איך אני יודע שזה עובד?",
-    answer: "תקבל דוחות עם כל המספרים - חשיפות, קליקים, לידים, המרות ו-ROI. הכול שקוף לגמרי. אנחנו עובדים לפי תוצאות, לא הבטחות."
-  },
-  {
-    question: "מה ההבדל ביניכם לחברות שיווק אחרות?",
-    answer: "אנחנו שמים את הלקוח בפרונט. זה לא סיסמה, זה איך שאנחנו עובדים. שקיפות מלאה, שירות אישי אמיתי, ואתם לא עוד מספר אצלנו - אתם שותפים לדרך."
-  },
-  {
-    question: "האם אתם מתאימים לעסק קטן כמו שלי?",
-    answer: "בטח! עבדנו עם כל סוגי העסקים - מאיש אחד ועד רשתות גדולות. החבילה 'מתחיל' בדיוק בשביל עסקים קטנים ובינוניים שרוצים להתחיל נכון."
-  },
-
+    question: "איך מתבצע הדיווח על התוצאות?",
+    answer: "הכל שקוף לחלוטין. תקבלו דוחות מפורטים המציגים חשיפות, לידים בפועל, המרות והחזר השקעה (ROI) ברור לכל שקל שהושקע."
+  }
 ];
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null);
 
   return (
-    <section className="py-24 md:py-32 bg-gradient-to-b from-[#050505] to-[#0a0a0a] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
-      
-      {/* Background effects */}
-      <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-[#d4a853]/5 rounded-full blur-[150px]" />
+    <section className="py-20 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#d4a853]/3 rounded-full blur-[180px] pointer-events-none" />
 
-      <div className="max-w-4xl mx-auto px-4 md:px-8 relative">
+      <div className="max-w-3xl mx-auto px-4 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <div className="inline-flex items-center gap-2 mb-4">
-            <HelpCircle className="w-6 h-6 text-[#d4a853]" />
-            <span className="text-[#d4a853] text-base md:text-lg font-semibold tracking-[0.12em] drop-shadow-[0_0_14px_rgba(212,168,83,0.35)]">שאלות נפוצות</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">
-            יש לכם שאלות? יש לנו תשובות!
-          </h2>
-          <p className="text-white/40 mt-4">
-            כל מה שרציתם לדעת על העבודה איתנו
+          <h2 className="text-3xl md:text-5xl font-black text-white">יש לכם שאלות? יש לנו תשובות</h2>
+          <p className="text-white/50 text-sm md:text-base mt-2">
+            כל מה שחשוב לדעת על תחילת העבודה איתנו.
           </p>
         </motion.div>
 
         <div className="space-y-4">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.05 }}
-            >
-              <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-2xl border border-white/5 hover:border-[#d4a853]/20 transition-all duration-500 overflow-hidden">
+          {faqs.map((faq, index) => {
+            const isOpen = openIndex === index;
+            return (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.05 }}
+                className="glass-card rounded-2xl border border-white/5 overflow-hidden transition-all duration-300"
+              >
                 <button
-                  onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                  className="w-full p-6 md:p-8 flex items-center justify-between gap-4 text-right group"
+                  onClick={() => setOpenIndex(isOpen ? null : index)}
+                  className="w-full p-5 md:p-6 flex items-center justify-between gap-4 text-right"
                 >
-                  <h3 className="text-lg md:text-xl font-medium text-white group-hover:text-[#d4a853] transition-colors duration-300 flex-1 text-right">
+                  <h3 className={`text-sm md:text-base font-bold transition-colors duration-300 ${isOpen ? "text-[#d4a853]" : "text-white"}`}>
                     {faq.question}
                   </h3>
-                  <motion.div
-                    animate={{ rotate: openIndex === index ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="flex-shrink-0"
-                  >
-                    <ChevronDown className="w-6 h-6 text-[#d4a853]" />
-                  </motion.div>
+                  <ChevronDown className={`w-5 h-5 text-[#d4a853] transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                 </button>
 
-                <AnimatePresence>
-                  {openIndex === index && (
+                <AnimatePresence initial={false}>
+                  {isOpen && (
                     <motion.div
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: "auto", opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
+                      transition={{ duration: 0.25 }}
                     >
-                      <div className="px-6 md:px-8 pb-8 border-t border-white/5">
-                        <p className="text-white/70 leading-relaxed pt-6 text-base">
-                          {faq.answer}
-                        </p>
+                      <div className="px-5 pb-6 text-white/70 text-xs md:text-sm leading-relaxed border-t border-white/5 pt-4">
+                        {faq.answer}
                       </div>
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </div>
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </div>
-
-        {/* Still have questions CTA */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-12"
-        >
-          <div className="inline-block bg-[#1a1a1a] border border-[#d4a853]/20 rounded-2xl px-8 py-6">
-            <p className="text-white/70 mb-3">
-              יש לכם שאלות נוספות?
-            </p>
-            <button
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              className="text-[#d4a853] hover:text-[#e0b865] transition-colors underline font-medium"
-            >
-              דברו איתנו ישירות
-            </button>
-          </div>
-        </motion.div>
       </div>
     </section>
   );
 }
-

@@ -1,199 +1,97 @@
-import React, { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, Target, Globe, Palette, ChevronDown, Check } from "lucide-react";
+import React from "react";
+import { motion } from "framer-motion";
+import { MessageSquare, Target, Globe, Palette } from "lucide-react";
+import whatsappMockup from "../whatsapp_mockup.png";
 
-const servicesDetails = [
+const services = [
   {
-    id: "whatsapp",
-    icon: MessageCircle,
-    title: "קידום בוואטסאפ",
-    subtitle: "חשיפה למעל 100,000 אנשים",
-    color: "#d4a853",
-    description: "הערוץ הכי אישי ואפקטיבי לפנות ללקוחות פוטנציאליים. אנחנו מגיעים ישירות לנייד שלהם עם מסרים ממוקדים.",
-    features: [
-      "פרסום לקבוצות וואטסאפ ממוקדות בגיאוגרפיה ונישה שלכם",
-      "הגעה ישירה לאנשים בעלי עניין אמיתי בעסק שלכם",
-      "חשיפה למעל 100,000 אנשים בקהל היעד",
-      "שיעור פתיחה של מעל 90% (לעומת 20% במייל)",
-      "תגובות מהירות והמרות גבוהות",
-      "מעקב ודיווח על תוצאות בזמן אמת"
-    ]
+    icon: MessageSquare,
+    title: "קידום בוואטסאפ (100K+ חשיפה)",
+    desc: "אנחנו מגיעים ישירות לנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. פרסום חופשי ללא חסימות עם יחסי המרה מהגבוהים בשוק."
   },
   {
-    id: "social",
     icon: Target,
     title: "קידום ממומן ברשתות",
-    subtitle: "פייסבוק, אינסטגרם, טיקטוק",
-    color: "#d4a853",
-    description: "קמפיינים חכמים שמביאים תוצאות מדידות. אנחנו יודעים בדיוק איך להגיע לקהל שלכם במקום הנכון, בזמן הנכון.",
-    features: [
-      "ניהול קמפיינים ממומנים בפייסבוק ואינסטגרם",
-      "קמפיינים בטיקטוק לקהלים צעירים",
-      "טרגוט מדויק לפי דמוגרפיה, תחומי עניין והתנהגות",
-      "A/B testing שוטף לאופטימיזציה מקסימלית",
-      "יצירת קריאייטיבים מנצחים (תמונות ווידאו)",
-      "ניהול תקציב חכם למקסימום ROI",
-      "דוחות מפורטים עם תובנות ומלצות"
-    ]
+    desc: "קמפיינים מדויקים בפייסבוק, אינסטגרם וטיקטוק. טרגוט חכם, כתיבת קופירייטינג ממיר, ואופטימיזציה שוטפת לשיפור יחס ה-ROI."
   },
   {
-    id: "website",
     icon: Globe,
-    title: "בניית אתרים",
-    subtitle: "אתרים שמוכרים בשבילכם 24/7",
-    color: "#d4a853",
-    description: "אתר הוא לא רק כרטיס ביקור דיגיטלי. זה העובד הכי טוב שלכם - עובד 24/7, ומביא לקוחות בכל שעה.",
-    features: [
-      "עיצוב מודרני ומרשים שמייצג את המותג שלכם",
-      "חוויית משתמש מושלמת (UX) שמובילה להמרות",
-      "מותאם לכל המכשירים (נייד, טאבלט, מחשב)",
-      "אתרי נחיתה ממוקדים להמרה מקסימלית",
-      "אתרי תדמית מלאים עם ממשקי ניהול",
-      "חנויות אונליין עם מערכות תשלום",
-      "אופטימיזציה למנועי חיפוש (SEO)",
-      "טפסים חכמים ואינטגרציות עם מערכות CRM"
-    ]
+    title: "בניית אתרים ממירי תנועה",
+    desc: "אפיון, עיצוב ופיתוח דפי נחיתה ואתרי תדמית יוקרתיים. מותאמים מושלם למובייל, מהירים במיוחד ומתוכננים להמרות."
   },
   {
-    id: "branding",
     icon: Palette,
-    title: "עיצוב לוגואים ומיתוג",
-    subtitle: "הזהות המותגית שלכם",
-    color: "#d4a853",
-    description: "לוגו טוב זה לא רק עיצוב יפה. זה הסיפור שלכם, זה מה שהלקוחות זוכרים, וזה מה שמייצר אמון.",
-    features: [
-      "עיצוב לוגו ייחודי ומקצועי",
-      "מיתוג מלא - צבעים, פונטים, סגנון ויזואלי",
-      "מדריך מותג (Brand Guidelines) מקיף",
-      "עיצוב כרטיסי ביקור, נייר מכתבים, חתימת מייל",
-      "עיצובים לרשתות חברתיות (פרופיל, כיסוי, פוסטים)",
-      "חומרי פרסום (פלאיירים, באנרים, שלטים)",
-      "עיצוב אריזות ומוצרים (במידת הצורך)",
-      "ליווי ויישום המיתוג בכל הערוצים"
-    ]
+    title: "עיצוב לוגו ומיתוג מלא",
+    desc: "עיצוב זהות מותגית יוקרתית שמבדלת אותך מהמתחרים. לוגו מקצועי, צבעים, ספר מותג וכל החומרים השיווקיים במקום אחד."
   }
 ];
 
 export default function DetailedServicesSection() {
-  const [expandedService, setExpandedService] = useState(null);
-
   return (
-    <section id="services" className="py-24 md:py-32 bg-gradient-to-b from-[#050505] to-[#0a0a0a] relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
+    <section id="services" className="py-20 bg-gradient-to-b from-[#050505] to-[#070707] relative overflow-hidden" dir="rtl">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
       
-      {/* Background effects */}
-      <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-[#d4a853]/5 rounded-full blur-[150px]" />
-      <div className="absolute bottom-1/4 left-0 w-[600px] h-[600px] bg-[#d4a853]/3 rounded-full blur-[180px]" />
-
-      <div className="max-w-6xl mx-auto px-4 md:px-8 relative">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
-        >
-          <span className="text-[#d4a853] text-base md:text-lg font-semibold tracking-[0.12em] drop-shadow-[0_0_14px_rgba(212,168,83,0.35)]">פירוט השירותים</span>
-          <h2 className="text-3xl md:text-5xl font-light text-white mt-4 tracking-wide">
-            מה אנחנו מציעים?
-          </h2>
-          <p className="text-white/40 mt-4 max-w-2xl mx-auto">
-            לחצו על כל שירות כדי לראות פירוט מלא
-          </p>
-        </motion.div>
-
-        <div className="space-y-4">
-          {servicesDetails.map((service, index) => (
+      <div className="max-w-6xl mx-auto px-4 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Right Column: Text & Services (rendered first under RTL) */}
+          <div className="lg:col-span-7 text-right">
             <motion.div
-              key={service.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 15 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              transition={{ duration: 0.8 }}
+              className="mb-8"
             >
-              <div className="bg-gradient-to-br from-[#1a1a1a] to-[#0f0f0f] rounded-2xl border border-white/5 hover:border-[#d4a853]/20 transition-all duration-500 overflow-hidden">
-                {/* Header - Always visible */}
-                <button
-                  onClick={() => setExpandedService(expandedService === service.id ? null : service.id)}
-                  className="w-full p-6 md:p-8 flex items-center justify-between gap-4 text-right group"
-                >
-                  <div className="flex items-center gap-4 md:gap-6">
-                    <div 
-                      className="p-4 rounded-xl transition-all duration-300"
-                      style={{
-                        backgroundColor: expandedService === service.id 
-                          ? `${service.color}20` 
-                          : 'rgba(255,255,255,0.05)'
-                      }}
-                    >
-                      <service.icon
-                        className="w-7 h-7 transition-colors duration-300"
-                        style={{
-                          color: expandedService === service.id ? service.color : "#d4a853"
-                        }}
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-xl md:text-2xl font-semibold text-white mb-1 text-right">
-                        {service.title}
-                      </h3>
-                      <p className="text-white/50 text-sm text-right">{service.subtitle}</p>
-                    </div>
-                  </div>
-                  
-                  <motion.div
-                    animate={{ rotate: expandedService === service.id ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    <ChevronDown className="w-6 h-6 text-[#d4a853]" />
-                  </motion.div>
-                </button>
-
-                {/* Expanded content */}
-                <AnimatePresence>
-                  {expandedService === service.id && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3 }}
-                      className="overflow-hidden"
-                    >
-                      <div className="px-6 md:px-8 pb-8 border-t border-white/5">
-                        <div className="pt-6 space-y-6">
-                          {/* Description */}
-                          <p className="text-white/70 leading-relaxed text-base md:text-lg">
-                            {service.description}
-                          </p>
-
-                          {/* Features */}
-                          <div>
-                            <h4 className="text-white font-medium mb-4 flex items-center gap-2">
-                              <span className="w-1 h-5 bg-[#d4a853] rounded-full" />
-                              מה כולל השירות:
-                            </h4>
-                            <ul className="grid md:grid-cols-2 gap-3">
-                              {service.features.map((feature, i) => (
-                                <li key={i} className="flex items-start gap-3">
-                                  <Check className="w-5 h-5 text-[#d4a853] flex-shrink-0 mt-0.5" />
-                                  <span className="text-white/60 text-sm leading-relaxed">{feature}</span>
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-
-
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
+              <h2 className="text-3xl md:text-5xl font-black text-white">השירותים העיקריים שלנו</h2>
+              <p className="text-white/50 text-sm md:text-base mt-2">
+                בנינו מעטפת שלמה שנועדה לייצר פתרונות שיווקיים ועסקיים חזקים שיזניקו את העסק קדימה.
+              </p>
             </motion.div>
-          ))}
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {services.map((service, idx) => {
+                const Icon = service.icon;
+                return (
+                  <motion.div
+                    key={idx}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: idx * 0.1 }}
+                    className="glass-card rounded-2xl p-5 border border-white/5 hover:border-[#d4a853]/35 transition-all duration-300"
+                  >
+                    <div className="w-10 h-10 bg-[#d4a853]/10 rounded-xl flex items-center justify-center mb-4">
+                      <Icon className="w-5 h-5 text-[#d4a853]" />
+                    </div>
+                    <h3 className="text-base md:text-lg font-bold text-white mb-2">{service.title}</h3>
+                    <p className="text-white/60 text-xs md:text-sm leading-relaxed">{service.desc}</p>
+                  </motion.div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Left Column: Visual Mockup Column (rendered second under RTL) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-5 flex justify-center items-center relative"
+          >
+            <div className="absolute w-[300px] h-[300px] bg-[#d4a853]/5 rounded-full blur-[120px] pointer-events-none" />
+            <div className="relative glass-card p-3 rounded-[2.5rem] border border-[#d4a853]/25 shadow-2xl overflow-hidden max-w-md w-full">
+              <img 
+                src={whatsappMockup}
+                alt="VOOM Premium Connection Visual"
+                className="w-full h-auto rounded-[2rem] object-cover hover:scale-105 transition-transform duration-700"
+              />
+            </div>
+          </motion.div>
+
         </div>
       </div>
     </section>
   );
 }
-
