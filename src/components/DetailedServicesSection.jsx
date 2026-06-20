@@ -45,8 +45,8 @@ export default function DetailedServicesSection() {
       {/* Top Divider line */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent z-10" />
 
-      {/* Section-wide background video overlay (second_cinematic_luxury_loop.mp4) */}
-      <div className="absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+      {/* Section-wide background video overlay (second_cinematic_luxury_loop.mp4) - Hidden on mobile, visible on tablet/desktop */}
+      <div className="hidden md:block absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
         <video
           ref={videoRef}
           autoPlay
