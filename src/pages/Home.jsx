@@ -5,6 +5,7 @@ import TachlesSection from "@/components/TachlesSection";
 import AboutSection from "@/components/AboutSection";
 import DetailedServicesSection from "@/components/DetailedServicesSection";
 import ProcessSection from "@/components/ProcessSection";
+import InteractiveSection from "@/components/InteractiveSection";
 import ClientsSection from "@/components/ClientsSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import FAQSection from "@/components/FAQSection";
@@ -18,6 +19,7 @@ export default function Home() {
       <HeroSection />
       <DetailedServicesSection />
       <ProcessSection />
+      <InteractiveSection />
       <TestimonialsSection />
       <ClientsSection />
       <AboutSection />

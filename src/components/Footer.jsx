@@ -99,9 +99,6 @@ export default function Footer() {
         <span className="text-white/40 text-xs">
           © {new Date().getFullYear()} VOOM. כל הזכויות שמורות.
         </span>
-        <span className="text-white/30 text-[10px]">
-          האתר מונגש ומותאם באופן מלא לכלל המשתמשים.
-        </span>
       </div>
     </footer>
   );

@@ -1,13 +1,13 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { MessageSquare, Target, Globe, Palette } from "lucide-react";
-import whatsappMockup from "../whatsapp_mockup.png";
+import whatsappMockup from "../whatsapp_mockup.png"; // Kept aside in imports to preserve in codebase
 
 const services = [
   {
     icon: MessageSquare,
-    title: "קידום בוואטסאפ (100K+ חשיפה)",
-    desc: "אנחנו מגיעים ישירות לנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. פרסום חופשי ללא חסימות עם יחסי המרה מהגבוהים בשוק."
+    title: "קידום בוואטסאפ",
+    desc: "הגעה ישירה ומפולחת למסך הנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. פרסום חופשי ללא חסימות API."
   },
   {
     icon: Target,
@@ -22,11 +22,24 @@ const services = [
   {
     icon: Palette,
     title: "עיצוב לוגו ומיתוג מלא",
-    desc: "עיצוב זהות מותגית יוקרתית שמבדלת אותך מהמתחרים. לוגו מקצועי, צבעים, ספר מותג וכל החומרים השיווקיים במקום אחד."
+    desc: "עיצוב זהות מותגית יוקרתית שמבדלת אותך מהמתחרים. לוגו מקצועו, צבעים, ספר מותג וכל החומרים השיווקיים במקום אחד."
   }
 ];
 
 export default function DetailedServicesSection() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.playbackRate = 0.75;
+      videoRef.current.play().catch((err) => {
+        console.warn("DetailedServicesSection video autoplay failed:", err);
+      });
+    }
+  }, []);
+
   return (
     <section id="services" className="py-20 bg-gradient-to-b from-[#050505] to-[#070707] relative overflow-hidden" dir="rtl">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
@@ -82,11 +95,19 @@ export default function DetailedServicesSection() {
           >
             <div className="absolute w-[300px] h-[300px] bg-[#d4a853]/5 rounded-full blur-[120px] pointer-events-none" />
             <div className="relative glass-card p-3 rounded-[2.5rem] border border-[#d4a853]/25 shadow-2xl overflow-hidden max-w-md w-full">
-              <img 
-                src={whatsappMockup}
-                alt="VOOM Premium Connection Visual"
-                className="w-full h-auto rounded-[2rem] object-cover hover:scale-105 transition-transform duration-700"
-              />
+              <div className="relative rounded-[2rem] overflow-hidden aspect-square w-full bg-black">
+                <video
+                  ref={videoRef}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  controls={false}
+                  className="absolute inset-0 w-full h-full object-cover scale-[1.02] select-none pointer-events-none"
+                >
+                  <source src="/Use_the_EXACT_logo_provided_in.mp4" type="video/mp4" />
+                </video>
+              </div>
             </div>
           </motion.div>
 

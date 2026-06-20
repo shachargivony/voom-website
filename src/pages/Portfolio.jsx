@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, Globe, Palette, Layers, ChevronLeft, ChevronRight, Image } from "lucide-react";
+import { ExternalLink, Globe, Palette, Layers, ChevronLeft, ChevronRight, Image, EyeOff } from "lucide-react";
 import blastit1 from "../blastit1.png";
 import blastit2 from "../blastit2.png";
 import blastit3 from "../blastit3.png";
@@ -91,6 +91,17 @@ const projects = [
     tags: ["HTML5", "Tailwind CSS", "React", "Insurance UI"],
     images: [psifas],
     link: null,
+  },
+  {
+    id: 7,
+    category: "systems",
+    title: "מערכת ניתוב שיחות ו-WhatsApp CRM חסויה",
+    client: "לקוח: סוכנות נדל\"ן ופיננסים מובילה (סודי)",
+    desc: "פיתוח ואינטגרציה של מערכת WhatsApp Router מורכבת מבוססת AI. המערכת מנתחת שיחות נכנסות, מסווגת לידים לפי רמת בשלות עסקית, ומנתבת אותם אוטומטית לנציג המכירות המתאים ביותר תוך פחות מ-30 שניות.",
+    tags: ["WhatsApp API", "AI Agent", "Make.com", "Salesforce"],
+    images: [],
+    isConfidential: true,
+    link: null,
   }
 ];
 
@@ -145,7 +156,14 @@ function ProjectCard({ project, idx }) {
       {/* Image Slider */}
       <div className="relative overflow-hidden bg-[#0a0a0a] flex items-center justify-center p-6 border-b border-white/5 min-h-[360px] md:min-h-[400px]">
         
-        {isWebsite ? (
+        {project.isConfidential ? (
+          <div className="relative p-6 bg-gradient-to-b from-[#1a1309] to-[#0c0a06] rounded-2xl border border-[#d4a853]/45 shadow-[0_20px_50px_rgba(212,168,83,0.15)] max-w-[250px] w-full aspect-square flex flex-col items-center justify-center text-center select-none overflow-hidden">
+            <div className="absolute inset-0 bg-black/45 pointer-events-none z-10" />
+            <EyeOff className="w-10 h-10 text-[#d4a853] mb-3 relative z-20" />
+            <span className="text-[10px] font-black text-[#d4a853] tracking-widest uppercase mb-1 relative z-20">מערכת חסויה</span>
+            <p className="text-[9px] text-white/40 max-w-[180px] leading-relaxed relative z-20">להגנה על היתרון התחרותי של הלקוח, פרטי המערכת מוצגים בשיחה אישית בלבד.</p>
+          </div>
+        ) : isWebsite ? (
           <div className="flex flex-col items-center w-full max-w-[400px] md:max-w-[430px] select-none">
             {/* Monitor Body */}
             <div className="w-full bg-[#181818] rounded-xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_20px_rgba(212,168,83,0.03)] overflow-hidden flex flex-col p-1 relative z-10">

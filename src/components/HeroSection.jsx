@@ -1,47 +1,55 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowDown, Zap } from "lucide-react";
 import logo from "../../Logo.png";
 
+
 // Letter animation variants
 const letterVariants = {
   hidden: { y: 60, opacity: 0, scale: 0.4, rotate: -12 },
-  visible: (i) => ({
+  visible: {
     y: 0,
     opacity: 1,
     scale: 1,
     rotate: 0,
-    transition: {
-      delay: i * 0.1,
-      duration: 0.9,
-      ease: [0.22, 1, 0.36, 1], // custom easeOutQuint
-    },
-  }),
+    transition: { type: "spring", damping: 10, stiffness: 100 }
+  }
+};
+
+const sentenceVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.08 }
+  }
 };
 
 const fadeUp = {
-  hidden: { y: 30, opacity: 0 },
-  visible: (delay = 0) => ({
-    y: 0,
+  hidden: { opacity: 0, y: 30 },
+  visible: (customDelay) => ({
     opacity: 1,
-    transition: { delay, duration: 0.8, ease: "easeOut" },
-  }),
+    y: 0,
+    transition: { duration: 0.8, ease: "easeOut", delay: customDelay }
+  })
 };
 
 // Magnetic button hook
 function MagneticButton({ children, className, onClick }) {
-  const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
-  const springX = useSpring(x, { stiffness: 300, damping: 30 });
-  const springY = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const springConfig = { damping: 15, stiffness: 150 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
   const handleMove = (e) => {
-    const rect = ref.current.getBoundingClientRect();
-    const cx = e.clientX - rect.left - rect.width / 2;
-    const cy = e.clientY - rect.top - rect.height / 2;
-    x.set(cx * 0.3);
-    y.set(cy * 0.3);
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const clientX = e.clientX - rect.left - width / 2;
+    const clientY = e.clientY - rect.top - height / 2;
+
+    x.set(clientX * 0.35);
+    y.set(clientY * 0.35);
   };
 
   const handleLeave = () => {
@@ -51,7 +59,6 @@ function MagneticButton({ children, className, onClick }) {
 
   return (
     <motion.button
-      ref={ref}
       style={{ x: springX, y: springY }}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
@@ -65,6 +72,40 @@ function MagneticButton({ children, className, onClick }) {
 }
 
 export default function HeroSection() {
+  const videoRef = useRef(null);
+  const [isVideoVisible, setIsVideoVisible] = useState(false);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.playbackRate = 0.75;
+      videoRef.current.play()
+        .then(() => {
+          setIsVideoVisible(true);
+        })
+        .catch((err) => {
+          console.warn("Video autoplay failed:", err);
+        });
+    }
+  }, []);
+
+  const handleVideoEnded = () => {
+    setIsVideoVisible(false);
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.playbackRate = 0.75;
+        videoRef.current.play()
+          .then(() => {
+            setIsVideoVisible(true);
+          })
+          .catch((err) => {
+            console.warn("Video loop replay failed:", err);
+          });
+      }
+    }, 2000); // 2-second pause before replay
+  };
+
   const scrollToTachles = () => {
     document.getElementById("tachles-section")?.scrollIntoView({ behavior: "smooth" });
   };
@@ -78,7 +119,7 @@ export default function HeroSection() {
       className="relative min-h-[70vh] sm:min-h-[80vh] md:min-h-[90vh] flex flex-col items-center justify-center overflow-hidden bg-[#070707] py-12 sm:py-16 md:py-20 px-4 select-none"
       dir="rtl"
     >
-      {/* Background radial glow */}
+      {/* Background radial glow - placed at z-0 behind the video */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4a853]/5 via-[#070707] to-black" />
         <motion.div
@@ -88,16 +129,23 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Watermark logo */}
-      <div className="absolute inset-0 flex items-center justify-center z-0 pointer-events-none overflow-hidden">
-        <motion.img
-          src={logo}
-          alt="VOOM Watermark"
-          initial={{ scale: 0.85, opacity: 0 }}
-          animate={{ scale: [0.95, 1.05, 0.95], opacity: [0.04, 0.08, 0.04] }}
-          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="w-[450px] sm:w-[650px] md:w-[850px] h-auto object-contain filter blur-[1px] drop-shadow-[0_0_60px_rgba(212,168,83,0.12)]"
-        />
+      {/* Video Background - placed at z-10 on top of the radial glow */}
+      <div className="absolute inset-0 w-full h-full z-10 overflow-hidden pointer-events-none">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          playsInline
+          onEnded={handleVideoEnded}
+          className={`absolute inset-0 w-full h-full object-cover scale-[1.15] transition-opacity duration-1000 filter brightness-[0.45] contrast-[1.1] saturate-[0.8] ${
+            isVideoVisible ? "opacity-[0.22]" : "opacity-0"
+          }`}
+        >
+          <source src="/Use_the_EXACT_logo_provided_in.mp4" type="video/mp4" />
+        </video>
+        {/* Dark overlay gradients to blend it perfectly */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070707]/30 via-transparent to-[#070707]" />
+        <div className="absolute inset-0 bg-black/35" />
       </div>
 
       {/* Foreground content */}
@@ -157,13 +205,6 @@ export default function HeroSection() {
           >
             <Zap className="w-4 h-4" />
             קבל הצעה עכשיו
-          </MagneticButton>
-
-          <MagneticButton
-            onClick={scrollToTachles}
-            className="px-8 py-3.5 bg-transparent border border-white/15 hover:border-[#d4a853]/55 text-white font-bold text-xs md:text-sm rounded-xl transition-colors duration-300 flex items-center justify-center cursor-pointer"
-          >
-            תכלס מה תקבל
           </MagneticButton>
         </motion.div>
       </div>

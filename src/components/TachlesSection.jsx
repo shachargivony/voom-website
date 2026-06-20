@@ -5,7 +5,7 @@ import { Check, ArrowLeft } from "lucide-react";
 const services = [
   {
     title: "שיווק ממוקד בוואטסאפ",
-    desc: "הגעה ישירה ומפולחת למסך הנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. חשיפה נרחבת בשיעור פתיחה של מעל 90%.",
+    desc: "הגעה ישירה ומפולחת למסך הנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. חשיפה נרחבת עם אחוזי פתיחה ומענה גבוהים במיוחד.",
     benefits: ["פילוח גיאוגרפי ומקצועי", "דיוור אישי ללא חסימות API", "אחוזי מענה ושיח גבוהים"],
     goldGradient: "from-[#f0d78a] via-[#d4a853] to-[#b8934a]"
   },
@@ -112,7 +112,7 @@ export default function TachlesSection() {
         >
           {/* Extremely compelling curiosity inducer statement */}
           <p className="text-white/80 text-sm md:text-lg leading-relaxed tracking-wide">
-            איך הגענו למעל <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">100,000 חשיפות ממוקדות</span> בשיעור פתיחה של <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">90%</span> ללא עלויות API? השאירו פרטים ותגלו את הנוסחה השקטה של <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">VOOM</span>.
+            רוצים להגיע ישירות ללקוחות שלכם ולייעל את תהליכי השיווק והמכירה של העסק? השאירו פרטים ותגלו את השילוב המנצח של <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">VOOM</span> בין שיווק חכם לאוטומציות מתקדמות.
           </p>
 
           {/* Glowing Animated CTA Button */}
