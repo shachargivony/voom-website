@@ -95,9 +95,9 @@ export default function Footer() {
           <h4 className="text-white font-bold text-sm tracking-wider uppercase">צרו קשר</h4>
           <ul className="space-y-2.5 text-xs md:text-sm text-white/50">
             <li className="flex flex-wrap items-center gap-2">
-              <a href="mailto:contact@voom-media.com" className="hover:text-[#d4a853] transition-colors">contact@voom-media.com</a>
+              <a href="mailto:contact@voom-media.com" className="hover:text-[#d4a853] transition-colors whitespace-nowrap">contact@voom-media.com</a>
               <span className="text-white/20 select-none">•</span>
-              <span dir="ltr">054-809-0469</span>
+              <span className="whitespace-nowrap" dir="ltr">054-809-0469</span>
             </li>
           </ul>
         </div>
