@@ -2,6 +2,7 @@ import React from "react";
 import SEO from "@/components/SEO";
 import HeroSection from "@/components/HeroSection";
 import TachlesSection from "@/components/TachlesSection";
+import PackagesSection from "@/components/PackagesSection";
 import AboutSection from "@/components/AboutSection";
 import DetailedServicesSection from "@/components/DetailedServicesSection";
 import ProcessSection from "@/components/ProcessSection";
@@ -25,6 +26,7 @@ export default function Home() {
       <AboutSection />
       <FAQSection />
       <TachlesSection />
+      <PackagesSection />
       <ContactSection />
       <WhatsAppButton phoneNumber="972548090469" />
     </div>

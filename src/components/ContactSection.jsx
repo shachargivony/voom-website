@@ -50,10 +50,10 @@ export default function ContactSection() {
           className="text-center mb-16"
         >
           <h2 className="text-3xl md:text-5xl font-black text-white tracking-wide">
-            מוכנים להביא לקוחות חדשים?
+            מוכנים להתחיל את השינוי?
           </h2>
           <p className="text-white/50 mt-3 text-sm md:text-base">
-            השאירו פרטים ונחזור אליכם לשיחת אסטרטגיה קצרה — ללא עלות וללא התחייבות
+            השאירו פרטים ונחזור אליכם לשיחת אסטרטגיה קצרה — הצעד הראשון לשדרוג העסק שלכם מתחיל כאן.
           </p>
         </motion.div>
 
@@ -156,16 +156,16 @@ export default function ContactSection() {
               <motion.button
                 type="submit"
                 disabled={isSubmitting}
-                whileHover={{ scale: 1.05, boxShadow: "0 0 25px rgba(212, 168, 83, 0.4)" }}
+                whileHover={{ scale: 1.03, boxShadow: "0 6px 25px rgba(212, 168, 83, 0.45)" }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full max-w-sm mx-auto h-12 bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a] hover:from-[#f4e2bb] hover:to-[#c49a45] text-black font-black rounded-xl transition-all duration-300 shadow-[0_0_20px_rgba(212, 168, 83, 0.2)] hover:shadow-[0_0_35px_rgba(212, 168, 83, 0.4)] flex items-center justify-center gap-2 disabled:opacity-50"
+                className="w-full max-w-xs mx-auto h-11 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl transition-all duration-300 shadow-[0_4px_15px_rgba(212, 168, 83, 0.2)] flex items-center justify-center gap-2 disabled:opacity-50 relative overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out border border-[#d4a853]/40"
               >
                 {isSubmitting ? (
-                  <Loader2 className="w-5 h-5 animate-spin" />
+                  <Loader2 className="w-4 h-4 animate-spin" />
                 ) : (
                   <>
                     <span>שליחת פרטים לתיאום שיחה</span>
-                    <Send className="w-4 h-4 text-black" />
+                    <Send className="w-3.5 h-3.5 text-[#1c1407]" />
                   </>
                 )}
               </motion.button>

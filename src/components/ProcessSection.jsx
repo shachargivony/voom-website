@@ -69,9 +69,9 @@ export default function ProcessSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-black text-white">תהליך העבודה שלנו</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white">ארבעה שלבים לשינוי העסק שלכם</h2>
           <p className="text-white/50 text-sm md:text-base mt-2">
-            בלי עיכובים ובלי בירוקרטיה מיותרת. ארבעה שלבים פשוטים לתוצאות בשטח.
+            בלי עיכובים ובלי בירוקרטיה מיותרת. כך אנחנו מובילים את תהליך השינוי הדיגיטלי בעסק שלכם.
           </p>
         </motion.div>
 
@@ -130,11 +130,6 @@ export default function ProcessSection() {
                         <div className="relative z-10 w-10 h-10 md:w-11 md:h-11 bg-[#d4a853]/10 border border-[#d4a853]/20 rounded-xl flex items-center justify-center mb-2 sm:mb-3 md:mb-5 group-hover:bg-[#d4a853]/20 group-hover:border-[#d4a853]/50 group-hover:shadow-[0_0_18px_rgba(212,168,83,0.25)] transition-all duration-300">
                           <Icon className="w-5 h-5 text-[#d4a853]" />
                         </div>
-
-                        {/* Step badge */}
-                        <span className="relative z-10 text-[10px] font-black uppercase tracking-[0.2em] text-[#d4a853]/70 mb-1 sm:mb-2 block">
-                          שלב {step.number}
-                        </span>
 
                         <h3 className="relative z-10 text-sm sm:text-base md:text-lg font-black text-white mb-1 sm:mb-2 leading-snug">{step.title}</h3>
                         <p className="relative z-10 text-white/55 text-[11px] sm:text-xs md:text-sm leading-relaxed">{step.description}</p>

@@ -1,221 +1,247 @@
-import React, { useState, useEffect } from "react";
-import { motion } from "framer-motion";
-import { Calculator, Sparkles, TrendingUp, Info } from "lucide-react";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Sparkles, ArrowLeft, ArrowRight, RotateCcw, ShieldCheck, HelpCircle } from "lucide-react";
 
-// Helper component for count-up animation in calculator results
-function CounterValue({ value, suffix = "", duration = 1.0 }) {
-  const [displayVal, setDisplayVal] = useState(0);
-
-  useEffect(() => {
-    let start = 0;
-    const end = Math.floor(value);
-    if (start === end) {
-      setDisplayVal(end);
-      return;
-    }
-
-    const totalMs = duration * 1000;
-    const stepTime = Math.max(Math.floor(totalMs / Math.max(end - start, 1)), 10);
-    const increment = Math.ceil((end - start) / (totalMs / stepTime));
-
-    const timer = setInterval(() => {
-      start += increment;
-      if (start >= end) {
-        clearInterval(timer);
-        setDisplayVal(end);
-      } else {
-        setDisplayVal(start);
-      }
-    }, stepTime);
-
-    return () => clearInterval(timer);
-  }, [value, duration]);
-
-  return (
-    <span>
-      {displayVal.toLocaleString()}
-      {suffix}
-    </span>
-  );
-}
+const questions = [
+  {
+    id: 1,
+    question: "איך אתם מנהלים את קליטת הפניות והלידים החדשים כיום?",
+    options: [
+      { text: "פניות נרשמות ידנית (במחברת, בוואטסאפ האישי או בקבוצות)", points: 0, value: "manual" },
+      { text: "הפניות מגיעות למייל או לקובץ אקסל ואנחנו חוזרים אליהן משם", points: 10, value: "excel" },
+      { text: "יש לנו מערכת CRM מסודרת שקולטת את כל הפניות אוטומטית", points: 20, value: "crm" }
+    ]
+  },
+  {
+    id: 2,
+    question: "תוך כמה זמן בממוצע אתם חוזרים לפנייה חדשה בעסק?",
+    options: [
+      { text: "ביום למחרת או כשמתפנה זמן במהלך השבוע", points: 0, value: "next_day" },
+      { text: "במהלך אותו היום, בדרך כלל תוך מספר שעות", points: 10, value: "hours" },
+      { text: "משתדלים לחזור מיידית, בטווח של מספר דקות (במענה אוטומטי או נציג)", points: 20, value: "immediate" }
+    ]
+  },
+  {
+    id: 3,
+    question: "כיצד מתבצע מעקב (Follow-up) אחר לקוחות שלא ענו לכם?",
+    options: [
+      { text: "אין לנו תהליך מוגדר כרגע, רוב הפניות שלא ענו פשוט נעצרות שם", points: 0, value: "no_follow" },
+      { text: "באופן ידני - שולחים הודעה או מנסים להתקשר שוב כשנזכרים", points: 10, value: "manual_follow" },
+      { text: "יש לנו סדרת הודעות ומעקבים אוטומטיים מתוזמנים בוואטסאפ או בסמס", points: 20, value: "auto_follow" }
+    ]
+  },
+  {
+    id: 4,
+    question: "היכן נשמרים פרטי הלקוחות שלכם לניהול לטווח הארוך?",
+    options: [
+      { text: "בהיסטוריית השיחות בוואטסאפ או בפתקאות ידניות", points: 0, value: "whatsapp_db" },
+      { text: "בקובצי אקסל מפוזרים או במייל", points: 10, value: "excel_db" },
+      { text: "במערכת CRM מרכזית ומסודרת שמאפשרת לנו לנהל אותם בנוחות", points: 20, value: "crm_db" }
+    ]
+  },
+  {
+    id: 5,
+    question: "האם יש לכם תהליך שליחה אוטומטי של מידע או הצעות מחיר?",
+    options: [
+      { text: "לא, אנחנו מכינים ושולחים הכל ידנית לכל לקוח בנפרד", points: 0, value: "manual_proposal" },
+      { text: "חלקית, יש לנו הודעות מוכנות מראש שאנחנו מעתיקים ושולחים ידנית", points: 10, value: "semi_auto" },
+      { text: "כן, שליחת המידע או הקטלוג מתבצעת אוטומטית לפי בקשת הלקוח", points: 20, value: "auto_proposal" }
+    ]
+  }
+];
 
 export default function InteractiveSection() {
-  // Calculator States
-  const [leads, setLeads] = useState(100);
-  const [closeRate, setCloseRate] = useState(5); // in %
-  const [targetCloseRate, setTargetCloseRate] = useState(10); // in %
-  const [clientValue, setClientValue] = useState(3000); // in ILS
+  const [currentStep, setCurrentStep] = useState(0);
+  const [answers, setAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
 
-  // Adjust target closing rate if current closing rate is increased
-  useEffect(() => {
-    if (closeRate >= targetCloseRate) {
-      setTargetCloseRate(Math.min(closeRate + 5, 50));
+  const handleSelectOption = (value, points) => {
+    const newAnswers = { ...answers, [currentStep]: { value, points } };
+    setAnswers(newAnswers);
+
+    if (currentStep < questions.length - 1) {
+      setCurrentStep(currentStep + 1);
+    } else {
+      setShowResults(true);
     }
-  }, [closeRate]);
+  };
 
-  // Calculations
-  const currentClients = Math.floor((leads * closeRate) / 100);
-  const currentRevenue = currentClients * clientValue;
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
-  const simulatedClients = Math.floor((leads * targetCloseRate) / 100);
-  const simulatedRevenue = simulatedClients * clientValue;
-  
-  const monthlyDiff = simulatedRevenue - currentRevenue;
-  const annualDiff = monthlyDiff * 12;
+  const resetQuiz = () => {
+    setAnswers({});
+    setCurrentStep(0);
+    setShowResults(false);
+  };
+
+  // Calculate score out of 100
+  const totalPoints = Object.values(answers).reduce((sum, item) => sum + item.points, 0);
+  const score = totalPoints;
 
   return (
-    <section id="interactive-tools" className="py-24 bg-gradient-to-b from-[#050505] to-[#0a0a0a] relative overflow-hidden" dir="rtl">
+    <section id="interactive-tools" className="py-20 bg-gradient-to-b from-[#0a0a0a] to-[#050505] relative overflow-hidden" dir="rtl">
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent" />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4a853]/3 rounded-full blur-[180px] pointer-events-none" />
-
-      <div className="max-w-5xl mx-auto px-4 relative z-10">
+      
+      <div className="max-w-3xl mx-auto px-4 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-black text-white">סימולטור הכנסות ושיפור המרה</h2>
-          <p className="text-white/50 text-sm md:text-base mt-2 max-w-xl mx-auto">
-            בדוק כיצד שינוי מבוקר באחוזי הסגירה ובכמות הלידים משפיע על השורה התחתונה בעסק שלך.
+        <div className="text-center mb-10">
+          <h2 className="text-2xl md:text-4xl font-black text-white">בואו נבדוק את פוטנציאל השדרוג של העסק שלכם</h2>
+          <p className="text-white/50 text-xs md:text-sm mt-2 max-w-lg mx-auto">
+            מלאו 5 שאלות פשוטות וידידותיות כדי לקבל הערכה מהירה של הדרכים בהן נוכל לחסוך לכם זמן ולייעל את השיווק והמענה בעסק שלכם.
           </p>
         </div>
 
-        {/* Simulator Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Inputs panel */}
-          <div className="lg:col-span-6 glass-card rounded-[2rem] p-6 md:p-8 border border-white/5 bg-black/40 flex flex-col justify-between space-y-6">
-            <h3 className="text-xl font-black text-white border-b border-white/5 pb-4 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#d4a853]" />
-              משתני הסימולציה שלך
-            </h3>
-
-            {/* Slider 1: Leads */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-white/65 font-bold">כמות לידים חודשית:</span>
-                <span className="text-[#d4a853] font-black text-sm">{leads} לידים</span>
-              </div>
-              <input
-                type="range"
-                min="10"
-                max="1000"
-                step="10"
-                value={leads}
-                onChange={(e) => setLeads(Number(e.target.value))}
-                className="w-full accent-[#d4a853] bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer"
-              />
-            </div>
-
-            {/* Slider 2: Current Closing Rate */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-white/65 font-bold">אחוז סגירה נוכחי:</span>
-                <span className="text-[#d4a853] font-black text-sm">{closeRate}% סגירה</span>
-              </div>
-              <input
-                type="range"
-                min="1"
-                max="30"
-                step="1"
-                value={closeRate}
-                onChange={(e) => setCloseRate(Number(e.target.value))}
-                className="w-full accent-[#d4a853] bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer"
-              />
-            </div>
-
-            {/* Slider 3: Target/Improved Closing Rate */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-white/65 font-bold">יעד אחוז סגירה משופר:</span>
-                <span className="text-[#d4a853] font-black text-sm">{targetCloseRate}% סגירה</span>
-              </div>
-              <input
-                type="range"
-                min={closeRate + 1}
-                max="50"
-                step="1"
-                value={targetCloseRate}
-                onChange={(e) => setTargetCloseRate(Number(e.target.value))}
-                className="w-full accent-[#d4a853] bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer"
-              />
-            </div>
-
-            {/* Slider 4: Client Value */}
-            <div className="space-y-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="text-white/65 font-bold">שווי לקוח/עסקה ממוצע:</span>
-                <span className="text-[#d4a853] font-black text-sm">{clientValue.toLocaleString()} ₪</span>
-              </div>
-              <input
-                type="range"
-                min="500"
-                max="30000"
-                step="500"
-                value={clientValue}
-                onChange={(e) => setClientValue(Number(e.target.value))}
-                className="w-full accent-[#d4a853] bg-white/10 rounded-lg appearance-none h-1.5 cursor-pointer"
-              />
-            </div>
-
-            <div className="flex items-start gap-2 bg-[#d4a853]/5 border border-[#d4a853]/15 p-3.5 rounded-xl">
-              <Info className="w-4 h-4 text-[#d4a853] flex-shrink-0 mt-0.5" />
-              <p className="text-[10px] sm:text-xs text-white/50 leading-relaxed pr-1">
-                מערכות אוטומציה של וואטסאפ וניהול CRM חכם מאפשרות לעסקים לייעל את המענה הראשוני לליד, ובכך להעלות את אחוזי הסגירה שלהם ללא הגדלת תקציב הפרסום.
-              </p>
-            </div>
-          </div>
-
-          {/* Outputs panel */}
-          <div className="lg:col-span-6 flex flex-col justify-between gap-6">
-            {/* Revenue comparison */}
-            <div className="glass-card rounded-[2rem] p-6 border border-white/5 bg-black/60 backdrop-blur-md flex-1 flex flex-col justify-center">
-              <div className="grid grid-cols-2 gap-4 divide-x divide-x-reverse divide-white/5 text-center">
-                <div className="px-2">
-                  <span className="text-[10px] text-white/40 font-bold block mb-1">הכנסה חודשית נוכחית</span>
-                  <div className="text-xl md:text-2xl font-black text-white/80">
-                    <CounterValue value={currentRevenue} suffix=" ₪" />
-                  </div>
-                  <span className="text-[9px] text-white/30 block mt-1">{currentClients} לקוחות חדשים</span>
-                </div>
-                <div className="px-2">
-                  <span className="text-[10px] text-[#d4a853] font-black block mb-1">פוטנציאל הכנסה חדש</span>
-                  <div className="text-2xl md:text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853]">
-                    <CounterValue value={simulatedRevenue} suffix=" ₪" />
-                  </div>
-                  <span className="text-[9px] text-[#d4a853]/60 block mt-1 font-bold">{simulatedClients} לקוחות חדשים</span>
-                </div>
-              </div>
-            </div>
-
-            {/* Impact block */}
-            <div className="glass-card rounded-[2rem] p-6 border border-[#d4a853]/30 bg-gradient-to-br from-[#1a1710] to-[#0a0a0a] flex-1 flex flex-col justify-between text-center relative overflow-hidden">
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-[#d4a853]/3 rounded-full blur-2xl pointer-events-none" />
-              
-              <span className="text-xs font-bold text-white/50 uppercase tracking-wider block">פוטנציאל תוספת רווח שנתי לעסק שלך</span>
-              
-              <div className="my-4 text-3xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-[#fff] via-[#f0d78a] to-[#d4a853]">
-                + <CounterValue value={annualDiff} suffix=" ₪" />
-              </div>
-
-              <p className="text-xs text-white/40 leading-relaxed max-w-sm mx-auto">
-                הגדלה ממוקדת של אחוזי הסגירה היא המנוף המהיר והרווחי ביותר לצמיחה של כל עסק המקבל פניות דיגיטליות.
-              </p>
-
-              <button
-                onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
-                className="mt-6 w-full max-w-xs mx-auto h-11 bg-white/5 border border-[#d4a853]/30 text-[#d4a853] hover:bg-[#d4a853] hover:text-black font-extrabold text-xs rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 shadow-[0_0_15px_rgba(212,168,83,0.05)] cursor-pointer"
+        <div className="glass-card rounded-[2rem] p-6 md:p-8 border border-white/5 bg-black/50 relative overflow-hidden max-w-2xl mx-auto">
+          
+          <AnimatePresence mode="wait">
+            {!showResults ? (
+              <motion.div
+                key={currentStep}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.25 }}
+                className="space-y-6"
               >
-                <TrendingUp className="w-3.5 h-3.5" />
-                בוא נבנה תוכנית עבודה לעסק שלך
-              </button>
-            </div>
-          </div>
+                {/* Progress Header */}
+                <div className="flex justify-between items-center pb-3 border-b border-white/5">
+                  <span className="text-white/50 text-xs font-bold flex items-center gap-1.5">
+                    <HelpCircle className="w-4 h-4 text-[#d4a853]" />
+                    שאלה {currentStep + 1} מתוך {questions.length}
+                  </span>
+                  
+                  <div className="w-32 bg-white/10 h-1 rounded-full overflow-hidden">
+                    <div 
+                      className="bg-gradient-to-r from-[#BF953F] to-[#FCF6BA] h-full transition-all duration-300"
+                      style={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+                {/* Question */}
+                <h3 className="text-base md:text-lg font-black text-white leading-snug">
+                  {questions[currentStep].question}
+                </h3>
+
+                {/* Options list */}
+                <div className="space-y-2.5">
+                  {questions[currentStep].options.map((option, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => handleSelectOption(option.value, option.points)}
+                      className="w-full text-right bg-white/3 hover:bg-[#d4a853]/5 border border-white/5 hover:border-[#d4a853]/30 p-3.5 rounded-xl text-white text-xs md:text-sm font-medium transition-all duration-200 flex items-center justify-between group cursor-pointer"
+                    >
+                      <span>{option.text}</span>
+                      <ArrowLeft className="w-3.5 h-3.5 text-white/30 group-hover:text-[#d4a853] group-hover:translate-x-[-3px] transition-all flex-shrink-0 mr-3" />
+                    </button>
+                  ))}
+                </div>
+
+                {/* Back Button */}
+                {currentStep > 0 && (
+                  <button
+                    onClick={handleBack}
+                    className="flex items-center gap-1.5 text-xs text-white/40 hover:text-white transition-colors cursor-pointer"
+                  >
+                    <ArrowRight className="w-3.5 h-3.5" />
+                    <span>חזרה לשאלה הקודמת</span>
+                  </button>
+                )}
+              </motion.div>
+            ) : (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="space-y-6 text-center"
+              >
+                {/* Results Header */}
+                <div>
+                  <Sparkles className="w-8 h-8 text-[#d4a853] mx-auto mb-2 animate-pulse" />
+                  <h3 className="text-xl md:text-2xl font-black text-white">תוצאות הבדיקה שלכם</h3>
+                </div>
+
+                {/* Score Layout */}
+                <div className="flex flex-col items-center justify-center py-4">
+                  <div className="relative w-28 h-28 flex items-center justify-center rounded-full border border-white/10 bg-black/60 shadow-[0_0_25px_rgba(212,168,83,0.03)] mb-4">
+                    <div className="absolute inset-1.5 rounded-full border border-dashed border-[#d4a853]/20 animate-spin-slow" />
+                    <div className="text-center z-10">
+                      <span className="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-[#f0d78a] to-[#d4a853]">{score}</span>
+                      <span className="text-white/40 block text-[9px] font-bold">מתוך 100</span>
+                    </div>
+                  </div>
+                  
+                  <h4 className="text-sm font-bold text-white mb-2">
+                    {score < 50 ? (
+                      <span className="text-amber-400">יש כאן הזדמנות נהדרת לשדרוג ויעילות בעסק</span>
+                    ) : score < 80 ? (
+                      <span className="text-amber-300">יש בסיס מצוין, עם מקום לשדרוג תהליכים</span>
+                    ) : (
+                      <span className="text-green-400 flex items-center justify-center gap-1">
+                        <ShieldCheck className="w-4 h-4 shrink-0" />
+                        מדהים! העסק שלכם עובד בצורה יעילה ומאורגנת
+                      </span>
+                    )}
+                  </h4>
+                  
+                  <p className="text-white/60 text-xs leading-relaxed max-w-md mx-auto">
+                    {score < 50 ? (
+                      "כרגע רוב התהליכים מנוהלים ידנית. המשמעות היא שאתם משקיעים המון זמן יקר שיכול להיחסך, ויש פניות שעלולות ללכת לאיבוד. מעבר לאוטומציה יפנה לכם שעות רבות בכל שבוע ויוביל ליותר סגירות."
+                    ) : score < 80 ? (
+                      "העסק שלכם כבר משתמש בכמה כלים דיגיטליים, וזה מעולה! יחד עם זאת, חיבור התהליכים יחד תחת מערכת אחת חכמה ימנע צווארי בקבוק, יקל עליכם משמעותית וישפר את אחוזי ההמרה."
+                    ) : (
+                      "העסק שלכם פועל בצורה נהדרת ומנצל היטב את הכלים הדיגיטליים. נשמח לחשוב יחד איך לקחת את זה צעד אחד קדימה לעבר אוטומציות מתקדמות וקמפיינים מורחבים שיאפשרו לכם לגדול עוד."
+                    )}
+                  </p>
+                </div>
+
+                {/* Recommendations */}
+                <div className="bg-white/3 border border-white/5 p-4 rounded-2xl text-right max-w-md mx-auto space-y-3">
+                  <h5 className="text-xs font-black text-[#d4a853] mb-1">נקודות לשיפור שנוכל לעזור לכם ליישם:</h5>
+                  <ul className="space-y-2 text-white/70 text-[11px] md:text-xs">
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#d4a853] font-bold">✓</span>
+                      <span>בניית תשתית CRM מאורגנת כדי שאף לקוח לא יילך לאיבוד</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#d4a853] font-bold">✓</span>
+                      <span>חיבור מענה ראשוני אוטומטי בוואטסאפ כדי לחזור ללקוח תוך שניות</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-[#d4a853] font-bold">✓</span>
+                      <span>הקמת סדרת הודעות מעקב מתוזמנת להחזרת לקוחות שלא ענו</span>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* CTA Action */}
+                <div className="pt-2 flex flex-col sm:flex-row gap-2.5 justify-center">
+                  <button
+                    onClick={() => document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" })}
+                    className="px-5 py-2.5 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs rounded-xl shadow-[0_4px_12px_rgba(212,168,83,0.15)] hover:shadow-[0_6px_20px_rgba(212,168,83,0.35)] transition-all duration-300 cursor-pointer relative overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out border border-[#d4a853]/40"
+                  >
+                    בואו נתכנן את השדרוג שלכם ביחד
+                  </button>
+                  <button
+                    onClick={resetQuiz}
+                    className="px-5 py-2.5 bg-transparent border border-white/10 text-white/60 hover:text-white hover:bg-white/5 font-bold text-xs rounded-xl transition-all duration-300 flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>בדיקה מחדש</span>
+                  </button>
+                </div>
+
+              </motion.div>
+            )}
+          </AnimatePresence>
+
         </div>
 
-        {/* Disclaimer text */}
-        <div className="mt-8 text-center">
-          <p className="text-[10px] text-white/30 leading-relaxed">
-            * מחשבון זה מיועד לצורך סימולציה, המחשה ותכנון בלבד, ואינו מהווה התחייבות או מצג שווא לתוצאות עסקיות, כמות לידים, הכנסות או אחוזי סגירה מובטחים. כל עסק וביצועיו הייחודיים.
-          </p>
-        </div>
       </div>
     </section>
   );

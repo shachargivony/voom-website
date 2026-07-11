@@ -19,6 +19,7 @@ export default function Footer() {
               src={logo} 
               alt="VOOM Logo" 
               className="w-10 h-10 object-contain drop-shadow-[0_0_8px_rgba(212,168,83,0.3)]"
+              loading="lazy"
             />
             <span className="text-xl font-black tracking-[0.15em] text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] uppercase font-sans">
               VOOM
@@ -71,9 +72,15 @@ export default function Footer() {
               </a>
             </li>
             <li>
-              <a href="#accessibility" className="hover:text-[#d4a853] transition-colors">
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.dispatchEvent(new CustomEvent('open-accessibility-declaration'));
+                }}
+                className="hover:text-[#d4a853] transition-colors cursor-pointer bg-transparent border-none p-0 text-white/50 text-xs md:text-sm text-right"
+              >
                 הצהרת נגישות
-              </a>
+              </button>
             </li>
             <li>
               <a href="#disclaimer" className="hover:text-[#d4a853] transition-colors">

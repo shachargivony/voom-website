@@ -176,7 +176,7 @@ export default function HeroSection() {
           animate="visible"
           className="text-2xl md:text-4xl font-black text-white/95 leading-tight"
         >
-          הלקוחות הבאים שלך כבר מחכים לך
+          השינוי של העסק שלך מתחיל כאן
         </motion.h2>
 
         {/* Subtitle */}
@@ -187,8 +187,8 @@ export default function HeroSection() {
           animate="visible"
           className="text-white/60 text-sm md:text-base font-medium mt-3 md:mt-4 max-w-xl leading-relaxed"
         >
-          מעטפת שיווק 360° — מוואטסאפ עד רשתות חברתיות, מאתרים עד מיתוג.{" "}
-          <span className="text-[#f0d78a] font-bold">כל הפתרונות במקום אחד</span>, מובילים לתוצאות מדידות.
+          הגיע הזמן לעבור משיטות שיווק ידניות ומפוזרות למעטפת שיווק ואוטומציה 360°.{" "}
+          <span className="text-[#f0d78a] font-bold">תתחילו את השינוי עוד היום</span> והובילו את העסק לצמיחה ומדידה.
         </motion.p>
 
         {/* CTA Buttons — magnetic effect */}
@@ -201,9 +201,9 @@ export default function HeroSection() {
         >
           <MagneticButton
             onClick={scrollToContact}
-            className="px-8 py-3.5 bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a] text-black font-extrabold text-xs md:text-sm rounded-xl shadow-[0_0_15px_rgba(212,168,83,0.25)] border border-[#d4a853]/35 flex items-center justify-center gap-2 cursor-pointer"
+            className="px-7 py-3 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl shadow-[0_4px_15px_rgba(212,168,83,0.2)] hover:shadow-[0_6px_25px_rgba(212,168,83,0.45)] border border-[#d4a853]/40 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out transition-all duration-300"
           >
-            <Zap className="w-4 h-4" />
+            <Zap className="w-3.5 h-3.5" />
             קבל הצעה עכשיו
           </MagneticButton>
         </motion.div>

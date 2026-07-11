@@ -4,6 +4,7 @@ import Portfolio from './pages/Portfolio'
 import Navbar from './components/Navbar'
 import CustomCursor from './components/CustomCursor'
 import InteractiveCanvas from './components/InteractiveCanvas'
+import AccessibilityWidget from './components/AccessibilityWidget'
 import TachlesButton from './components/TachlesButton'
 import Footer from './components/Footer'
 
@@ -14,6 +15,7 @@ function App() {
     <>
       <CustomCursor />
       <InteractiveCanvas />
+      <AccessibilityWidget />
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
       {currentPage === 'home' ? <Home /> : <Portfolio />}
       <Footer />

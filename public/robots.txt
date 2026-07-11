@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Block crawling of internal assets that waste crawl budget
+Disallow: /src/
+Disallow: /*.json$
+Disallow: /*.jsx$
+
+# Sitemap location
+Sitemap: https://www.voom-media.com/sitemap.xml

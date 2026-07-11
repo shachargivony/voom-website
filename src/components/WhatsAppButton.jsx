@@ -10,6 +10,7 @@ export default function WhatsAppButton({ phoneNumber = "972548090469" }) {
       href={whatsappUrl}
       target="_blank"
       rel="noopener noreferrer"
+      aria-label="יצירת קשר בוואטסאפ"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 2, type: "spring", stiffness: 200 }}

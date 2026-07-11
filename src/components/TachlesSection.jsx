@@ -112,19 +112,19 @@ export default function TachlesSection() {
         >
           {/* Extremely compelling curiosity inducer statement */}
           <p className="text-white/80 text-sm md:text-lg leading-relaxed tracking-wide">
-            רוצים להגיע ישירות ללקוחות שלכם ולייעל את תהליכי השיווק והמכירה של העסק? השאירו פרטים ותגלו את השילוב המנצח של <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">VOOM</span> בין שיווק חכם לאוטומציות מתקדמות.
+            העסק שלכם מוכן לשינוי האמיתי שלו. אל תישארו בשיטות הישנות שגוזלות לכם זמן ועסקאות. השאירו פרטים ותתחילו את השינוי עוד היום עם השילוב המנצח של <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">VOOM</span> בין שיווק חכם לאוטומציות מתקדמות.
           </p>
 
           {/* Glowing Animated CTA Button */}
           <motion.button
             onClick={scrollToContact}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative inline-flex items-center gap-3 px-10 py-5 bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a] text-black font-black text-sm md:text-base rounded-2xl border border-[#d4a853]/40 shadow-[0_0_30px_rgba(212,168,83,0.3)] hover:shadow-[0_0_50px_rgba(212,168,83,0.6)] transition-all duration-300 animate-float-breathing"
+            whileHover={{ scale: 1.04 }}
+            whileTap={{ scale: 0.96 }}
+            className="relative inline-flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl border border-[#d4a853]/40 shadow-[0_4px_15px_rgba(212,168,83,0.25)] hover:shadow-[0_6px_30px_rgba(212,168,83,0.5)] transition-all duration-300 animate-float-breathing overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out"
           >
             <span>גלו איך זה עובד אצלכם</span>
-            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5 text-black" />
-            <span className="absolute inset-0 rounded-2xl border border-[#d4a853]/30 animate-ping opacity-50 pointer-events-none" />
+            <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#1c1407]" />
+            <span className="absolute inset-0 rounded-xl border border-[#d4a853]/25 animate-ping opacity-30 pointer-events-none" />
           </motion.button>
         </motion.div>
 

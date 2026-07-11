@@ -76,6 +76,7 @@ export default function Navbar({ currentPage, setCurrentPage }) {
             src={logo} 
             alt="VOOM Logo" 
             className="w-8 h-8 object-contain drop-shadow-[0_0_8px_rgba(212,168,83,0.3)]"
+            fetchpriority="high"
           />
         </div>
       </div>
