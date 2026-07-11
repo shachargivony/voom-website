@@ -6,49 +6,49 @@ const steps = [
   {
     icon: MessageSquare,
     number: "01",
-    title: "שיחת ייעוץ ותיאום ציפיות",
-    description: "נכיר את העסק, המטרות העסקיות וקהל היעד שלכם באופן ממוקד.",
+    title: "שיחת ייעוץ",
+    description: "נכיר את העסק, המטרות והקהל שלכם באופן ממוקד כדי להבין היכן הפוטנציאל הגדול ביותר.",
     color: "from-[#d4a853]/20 to-transparent",
     deliverables: [
-      "אבחון שיווקי ועסקי מקיף",
-      "הגדרת קהלי יעד מדויקים",
-      "מיפוי מנועי צמיחה וצווארי בקבוק"
+      "מיפוי קהלי יעד פוטנציאליים",
+      "הבנת מנועי צמיחה בעסק",
+      "הגדרת מדדי הצלחה ראשוניים"
     ]
   },
   {
     icon: Target,
     number: "02",
-    title: "בניית אסטרטגיה מנצחת",
-    description: "נגבש תוכנית פעולה מותאמת אישית עם יעדים מדידים ותקציב מדויק.",
+    title: "אסטרטגיה ויצירת תוצרים",
+    description: "גיבוש תוכנית פעולה ייחודית ועבודה על כל חומרי השיווק — קופי ממוקד, קריאייטיבים יוקרתיים ועריכה.",
     color: "from-[#d4a853]/15 to-transparent",
     deliverables: [
-      "תוכנית עבודה מוגדרת חודשית",
-      "קריאייטיב וקונספט שיווקי ייחודי",
-      "חלוקת תקציב ומדיה אופטימלית"
+      "מפת דרכים שיווקית ועסקית",
+      "כתיבת קופירייטינג ממיר וממוקד",
+      "עיצוב קריאייטיבים וגרפיקה ברמת פרימיום"
     ]
   },
   {
     icon: Rocket,
     number: "03",
-    title: "השקה והרצת קמפיינים",
-    description: "נעלה את הקמפיינים, האתרים והאוטומציות לאוויר באופן מדויק.",
+    title: "משיקים את הקמפיין",
+    description: "העלאת הקמפיינים, האתרים, דפי הנחיתה והאוטומציות לאוויר ברמת דיוק מירבית.",
     color: "from-[#d4a853]/20 to-transparent",
     deliverables: [
-      "הקמת קמפיינים ודפי נחיתה ממירי תנועה",
-      "עיצוב מודעות וכתיבת קופי מדויק",
-      "חיבור לאוטומציות ומערכות CRM"
+      "הגדרת קמפיינים וקהלי יעד במערכות",
+      "חיבור טפסים ישירות ל-CRM/וואטסאפ",
+      "בדיקת תקינות מקיפה לפני השקה"
     ]
   },
   {
     icon: TrendingUp,
     number: "04",
-    title: "אופטימיזציה ושיפור המרות",
-    description: "נעקוב, ננתח ונשפר את הביצועים באופן קבוע כדי למקסם תוצאות.",
+    title: "ניתוח המרות ושיפור",
+    description: "מעקב שוטף, ניתוח נתונים וביצוע אופטימיזציה בזמן אמת כדי לשפר תוצאות במידת הצורך.",
     color: "from-[#d4a853]/15 to-transparent",
     deliverables: [
-      "אנליזה שוטפת ודוחות ביצועים מפורטים",
-      "מבחני A/B לקופי ועיצוב קריאייטיב",
-      "שיפור מתמיד של יחס ההמרה (CRO)"
+      "ניטור ביצועי קמפיינים מדי יום",
+      "ביצוע מבחני A/B לקריאייטיב וקופי",
+      "אופטימיזציה להוזלת עלות ההמרה"
     ]
   }
 ];
@@ -69,9 +69,9 @@ export default function ProcessSection() {
           transition={{ duration: 0.8 }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl md:text-5xl font-black text-white">ארבעה שלבים לשינוי העסק שלכם</h2>
+          <h2 className="text-3xl md:text-5xl font-black text-white">איך מתחילים?</h2>
           <p className="text-white/50 text-sm md:text-base mt-2">
-            בלי עיכובים ובלי בירוקרטיה מיותרת. כך אנחנו מובילים את תהליך השינוי הדיגיטלי בעסק שלכם.
+            תהליך עבודה ממוקד, ברור ומבוסס תוצאות — בשותפות מלאה ובקצב הנכון לעסק שלכם.
           </p>
         </motion.div>
 
@@ -107,7 +107,7 @@ export default function ProcessSection() {
                   onMouseEnter={() => setHoveredCard(idx)}
                   onMouseLeave={() => setHoveredCard(null)}
                   onClick={() => setHoveredCard(hoveredCard === idx ? null : idx)}
-                  className="relative group perspective-1000 w-full h-[210px] sm:h-[220px] md:h-[270px] lg:h-[300px] cursor-pointer"
+                  className="relative group perspective-1000 w-full h-[220px] sm:h-[230px] md:h-[280px] lg:h-[310px] cursor-pointer"
                 >
                   <motion.div
                     animate={{ rotateY: hoveredCard === idx ? 180 : 0 }}

@@ -23,14 +23,9 @@ export default function WhatsAppButton({ phoneNumber = "972548090469" }) {
         <div className="absolute inset-0 bg-[#25D366] rounded-full blur-lg opacity-40 group-hover:opacity-60 transition-opacity duration-300" />
         
         {/* Button */}
-        <div className="relative flex items-center gap-3 bg-[#25D366] hover:bg-[#20c05c] text-white px-5 py-4 rounded-full shadow-lg transition-all duration-300">
+        <div className="relative flex items-center justify-center bg-[#25D366] hover:bg-[#20c05c] text-white w-14 h-14 rounded-full shadow-lg transition-all duration-300">
           <MessageCircle className="w-6 h-6" />
-          <span className="font-medium hidden md:block">דברו איתנו</span>
         </div>
-        
-        {/* Ping animation */}
-        <span className="absolute top-0 right-0 w-3 h-3 bg-[#d4a853] rounded-full animate-ping" />
-        <span className="absolute top-0 right-0 w-3 h-3 bg-[#d4a853] rounded-full" />
       </div>
     </motion.a>
   );

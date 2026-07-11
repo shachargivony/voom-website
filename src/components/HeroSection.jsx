@@ -174,7 +174,7 @@ export default function HeroSection() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-2xl md:text-4xl font-black text-white/95 leading-tight"
+          className="text-3xl md:text-5xl font-black text-white/95 leading-tight"
         >
           השינוי של העסק שלך מתחיל כאן
         </motion.h2>
@@ -185,10 +185,10 @@ export default function HeroSection() {
           variants={fadeUp}
           initial="hidden"
           animate="visible"
-          className="text-white/60 text-sm md:text-base font-medium mt-3 md:mt-4 max-w-xl leading-relaxed"
+          className="text-white/70 text-sm md:text-base font-medium mt-3 md:mt-5 max-w-2xl leading-relaxed animate-pulse-subtle"
         >
-          הגיע הזמן לעבור משיטות שיווק ידניות ומפוזרות למעטפת שיווק ואוטומציה 360°.{" "}
-          <span className="text-[#f0d78a] font-bold">תתחילו את השינוי עוד היום</span> והובילו את העסק לצמיחה ומדידה.
+          הגיע הזמן להתקדם למעטפת שיווק ואוטומציה 360°. <br />
+          הבחירה להתחיל היא שלכם – <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853] font-black">יחד נוביל את העסק שלך לצמיחה והצלחה.</span>
         </motion.p>
 
         {/* CTA Buttons — magnetic effect */}
@@ -201,10 +201,10 @@ export default function HeroSection() {
         >
           <MagneticButton
             onClick={scrollToContact}
-            className="px-7 py-3 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl shadow-[0_4px_15px_rgba(212,168,83,0.2)] hover:shadow-[0_6px_25px_rgba(212,168,83,0.45)] border border-[#d4a853]/40 flex items-center justify-center gap-2 cursor-pointer relative overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out transition-all duration-300"
+            className="px-8 py-3.5 bg-black border border-[#d4a853] text-white font-black text-xs md:text-sm rounded-full shadow-[0_4px_15px_rgba(0,0,0,0.6)] hover:shadow-[0_6px_25px_rgba(212,168,83,0.2)] flex items-center justify-center gap-2.5 cursor-pointer relative overflow-hidden transition-all duration-300 group hover:bg-[#d4a853]/5"
           >
-            <Zap className="w-3.5 h-3.5" />
-            קבל הצעה עכשיו
+            <span>קבל הצעה עכשיו</span>
+            <ArrowDown className="w-4 h-4 text-white group-hover:translate-y-0.5 transition-transform" />
           </MagneticButton>
         </motion.div>
       </div>

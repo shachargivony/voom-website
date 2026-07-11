@@ -1,112 +1,126 @@
-import React, { useRef, useEffect } from "react";
-import { motion } from "framer-motion";
-import { MessageSquare, Target, Globe, Palette } from "lucide-react";
-import whatsappMockup from "../whatsapp_mockup.png"; // Kept aside in imports to preserve in codebase
+import React from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
+import { ArrowDown } from "lucide-react";
 
-const services = [
-  {
-    icon: MessageSquare,
-    title: "קידום בוואטסאפ",
-    desc: "הגעה ישירה ומפולחת למסך הנייד של לקוחות פוטנציאליים דרך קבוצות ורשימות תפוצה ממוקדות. פרסום חופשי ללא חסימות API."
-  },
-  {
-    icon: Target,
-    title: "קידום ממומן ברשתות",
-    desc: "קמפיינים מדויקים בפייסבוק, אינסטגרם וטיקטוק. טרגוט חכם, כתיבת קופירייטינג ממיר, ואופטימיזציה שוטפת לשיפור יחס ה-ROI."
-  },
-  {
-    icon: Globe,
-    title: "בניית אתרים ממירי תנועה",
-    desc: "אפיון, עיצוב ופיתוח דפי נחיתה ואתרי תדמית יוקרתיים. מותאמים מושלם למובייל, מהירים במיוחד ומתוכננים להמרות."
-  },
-  {
-    icon: Palette,
-    title: "עיצוב לוגו ומיתוג מלא",
-    desc: "עיצוב זהות מותגית יוקרתית שמבדלת אותך מהמתחרים. לוגו מקצועו, צבעים, ספר מותג וכל החומרים השיווקיים במקום אחד."
-  }
-];
+// Magnetic container wrapper to attract to mouse cursor when close
+function MagneticWrapper({ children }) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-export default function DetailedServicesSection() {
-  const videoRef = useRef(null);
+  const springConfig = { damping: 15, stiffness: 150 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.defaultMuted = true;
-      videoRef.current.muted = true;
-      videoRef.current.playbackRate = 0.75;
-      videoRef.current.play().catch((err) => {
-        console.warn("DetailedServicesSection video autoplay failed:", err);
-      });
-    }
-  }, []);
+  const handleMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const clientX = e.clientX - rect.left - width / 2;
+    const clientY = e.clientY - rect.top - height / 2;
+
+    x.set(clientX * 0.35);
+    y.set(clientY * 0.35);
+  };
+
+  const handleLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   return (
-    <section id="services" className="py-24 bg-[#050505] relative overflow-hidden" dir="rtl">
+    <motion.div
+      style={{ x: springX, y: springY }}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      className="inline-block"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+export default function DetailedServicesSection() {
+  const handleScrollToTachles = () => {
+    document.getElementById("tachles-section")?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  return (
+    <section id="services-intro" className="py-24 bg-[#050505] relative overflow-hidden" dir="rtl">
+      {/* Horizontal vibration keyframes for the CTA button */}
+      <style>{`
+        @keyframes horizontal-shake {
+          0%, 88%, 100% {
+            transform: translateX(0);
+          }
+          90% {
+            transform: translateX(-4px);
+          }
+          92% {
+            transform: translateX(4px);
+          }
+          94% {
+            transform: translateX(-3px);
+          }
+          96% {
+            transform: translateX(3px);
+          }
+          98% {
+            transform: translateX(0);
+          }
+        }
+        .animate-shake-horizontal {
+          animation: horizontal-shake 4.5s infinite ease-in-out;
+        }
+      `}</style>
+
       {/* Top Divider line */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/15 to-transparent z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-[#d4a853]/3 rounded-full blur-[160px] pointer-events-none z-0" />
 
-      {/* Section-wide background video overlay (second_cinematic_luxury_loop.mp4) - Hidden on mobile, visible on tablet/desktop */}
-      <div className="hidden md:block absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
-        <video
-          ref={videoRef}
-          autoPlay
-          muted
-          loop
-          playsInline
-          controls={false}
-          className="absolute inset-0 w-full h-full object-cover scale-[1.15] opacity-[0.32] filter brightness-[0.6] contrast-[1.05] saturate-[0.8] select-none pointer-events-none"
+      <div className="max-w-4xl mx-auto px-4 relative z-10 text-center">
+        {/* Headline */}
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="text-3xl md:text-5xl font-black text-white leading-tight mb-6"
         >
-          <source src="/second_cinematic_luxury_loop.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-transparent to-[#050505]" />
-        <div className="absolute inset-0 bg-black/20" />
-      </div>
+          במקום מצגות משעממות ותוכניות שיווק מורכבות על הנייר <br />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] to-[#d4a853]">אנחנו פועלים, מיישמים ומביאים תוצאות.</span>
+        </motion.h2>
 
-      {/* Ambient Radial Glow behind content */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[750px] bg-[#d4a853]/4 rounded-full blur-[160px] pointer-events-none z-0" />
-      
-      <div className="max-w-6xl mx-auto px-4 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          
-          {/* Main Column: Text & Services Grid */}
-          <div className="lg:col-span-12 text-right">
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.8 }}
-              className="mb-12 text-center lg:text-right"
+        {/* Subtitle */}
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="text-white/60 text-sm md:text-base leading-relaxed max-w-2xl mx-auto mb-10"
+        >
+          אנחנו לא כאן כדי למכור לכם הבטחות באוויר. המעטפת של VOOM ממוקדת בכלים הפרקטיים, במספרים ובמהירות המענה שיביאו לקוחות ויעבירו את העסק שלכם למסלול המהיר באופן מדיד.
+        </motion.p>
+
+        {/* Sleek CTA Drive Button with custom horizontal shake and mouse attraction */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex justify-center"
+        >
+          <MagneticWrapper>
+            <motion.button
+              onClick={handleScrollToTachles}
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="px-8 py-3.5 bg-black border border-[#d4a853] text-white hover:text-[#1c1407] font-black text-xs md:text-sm rounded-full shadow-[0_4px_20px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_30px_rgba(212,168,83,0.35)] flex items-center justify-center gap-2.5 cursor-pointer relative overflow-hidden transition-all duration-300 group after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-[#d4a853]/25 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out hover:bg-gradient-to-r hover:from-[#BF953F] hover:via-[#FCF6BA] hover:to-[#B38728] hover:border-transparent animate-shake-horizontal"
             >
-              <h2 className="text-3xl md:text-5xl font-black text-white">השירותים העיקריים שלנו</h2>
-              <p className="text-white/50 text-sm md:text-base mt-2 max-w-xl">
-                בנינו מעטפת שלמה שנועדה לייצר פתרונות שיווקיים ועסקיים חזקים שיזניקו את העסק קדימה.
-              </p>
-            </motion.div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {services.map((service, idx) => {
-                const Icon = service.icon;
-                return (
-                  <motion.div
-                    key={idx}
-                    initial={{ opacity: 0, y: 15 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.6, delay: idx * 0.1 }}
-                    className="glass-card rounded-2xl p-5 border border-white/5 hover:border-[#d4a853]/35 transition-all duration-300 backdrop-blur-sm bg-black/35"
-                  >
-                    <div className="w-10 h-10 bg-[#d4a853]/10 rounded-xl flex items-center justify-center mb-4">
-                      <Icon className="w-5 h-5 text-[#d4a853]" />
-                    </div>
-                    <h3 className="text-base md:text-lg font-bold text-white mb-2">{service.title}</h3>
-                    <p className="text-white/60 text-xs md:text-sm leading-relaxed">{service.desc}</p>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </div>
-
-        </div>
+              <span>בואו נדבר תכלס – מה אנחנו מציעים?</span>
+              <ArrowDown className="w-4 h-4 text-white group-hover:text-[#1c1407] transition-colors transition-transform duration-300 group-hover:translate-y-0.5" />
+            </motion.button>
+          </MagneticWrapper>
+        </motion.div>
       </div>
     </section>
   );

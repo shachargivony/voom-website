@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Check, ArrowLeft } from "lucide-react";
 
@@ -30,14 +30,44 @@ const services = [
 ];
 
 export default function TachlesSection() {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.defaultMuted = true;
+      videoRef.current.muted = true;
+      videoRef.current.playbackRate = 0.75;
+      videoRef.current.play().catch((err) => {
+        console.warn("TachlesSection video autoplay failed:", err);
+      });
+    }
+  }, []);
+
   const scrollToContact = () => {
     document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section id="tachles-section" className="py-20 bg-gradient-to-b from-[#070707] to-black relative overflow-hidden">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4a853]/5 via-transparent to-transparent pointer-events-none" />
-      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent" />
+    <section id="tachles-section" className="py-24 bg-gradient-to-b from-[#070707] to-black relative overflow-hidden">
+      {/* Background Video Overlay for desktop/tablet */}
+      <div className="hidden md:block absolute inset-0 w-full h-full z-0 overflow-hidden pointer-events-none">
+        <video
+          ref={videoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          controls={false}
+          className="absolute inset-0 w-full h-full object-cover scale-[1.15] opacity-[0.3] filter brightness-[0.55] contrast-[1.05] saturate-[0.8] select-none pointer-events-none"
+        >
+          <source src="/second_cinematic_luxury_loop.mp4" type="video/mp4" />
+        </video>
+        <div className="absolute inset-0 bg-gradient-to-b from-[#070707] via-transparent to-black" />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-[#d4a853]/3 via-transparent to-transparent pointer-events-none z-0" />
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-[#d4a853]/20 to-transparent z-10" />
 
       <div className="max-w-6xl mx-auto px-4 relative z-10">
         <motion.div
@@ -75,7 +105,7 @@ export default function TachlesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: idx * 0.1 }}
-              className="glass-card rounded-[2rem] p-8 border border-white/5 hover:border-[#d4a853]/35 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
+              className="glass-card rounded-[2rem] p-8 border border-white/5 hover:border-[#d4a853]/35 bg-black/45 hover:bg-black/60 transition-all duration-300 relative overflow-hidden flex flex-col justify-between"
             >
               <div>
                 <h3 className="text-xl md:text-2xl font-black text-white">
@@ -120,7 +150,7 @@ export default function TachlesSection() {
             onClick={scrollToContact}
             whileHover={{ scale: 1.04 }}
             whileTap={{ scale: 0.96 }}
-            className="relative inline-flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl border border-[#d4a853]/40 shadow-[0_4px_15px_rgba(212,168,83,0.25)] hover:shadow-[0_6px_30px_rgba(212,168,83,0.5)] transition-all duration-300 animate-float-breathing overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out"
+            className="relative inline-flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-bold text-xs md:text-sm rounded-xl border border-[#d4a853]/45 shadow-[0_4px_15px_rgba(212,168,83,0.25)] hover:shadow-[0_6px_30px_rgba(212,168,83,0.5)] transition-all duration-300 animate-float-breathing overflow-hidden after:absolute after:inset-y-0 after:-left-[100%] after:w-[50%] after:bg-gradient-to-r after:from-transparent after:via-white/30 after:to-transparent after:skew-x-[-25deg] hover:after:left-[150%] after:transition-all after:duration-[1000ms] after:ease-in-out cursor-pointer"
           >
             <span>גלו איך זה עובד אצלכם</span>
             <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4 text-[#1c1407]" />

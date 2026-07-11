@@ -207,7 +207,7 @@ export default function PackagesSection() {
         </div>
 
         {/* Bottom note */}
-        <p className="text-center text-[10px] text-white/25 mt-8">
+        <p className="text-center text-xs md:text-sm text-white/40 mt-10">
           * כל החבילות מותאמות אישית לצרכי העסק. ניתן לשלב שירותים ולהתאים את החבילה בשיחת הייעוץ.
         </p>
       </div>

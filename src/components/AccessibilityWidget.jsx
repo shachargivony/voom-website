@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, X, ZoomIn, ZoomOut, Type, Link, Sparkles, AlertCircle, FileText } from "lucide-react";
+import { Accessibility, X, ZoomIn, ZoomOut, Type, Link, Sparkles, FileText } from "lucide-react";
 
 export default function AccessibilityWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -177,183 +177,176 @@ export default function AccessibilityWidget() {
           aria-label="פתח תפריט נגישות"
           className="w-12 h-12 rounded-full bg-[#d4a853] text-[#1c1407] hover:bg-[#e6bb67] shadow-[0_4px_15px_rgba(212,168,83,0.35)] flex items-center justify-center cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
         >
-          <Eye className="w-6 h-6 text-[#1c1407]" />
+          <Accessibility className="w-6 h-6 text-[#1c1407]" />
         </button>
       </div>
 
-      {/* Accessibility Menu Drawer */}
-      <AnimatePresence>
-        {isOpen && (
-          <div className="fixed inset-0 z-50 flex justify-start pointer-events-none select-none" dir="rtl">
-            {/* Backdrop click to close */}
-            <div 
-              className="absolute inset-0 bg-black/40 backdrop-blur-sm pointer-events-auto"
-              onClick={() => setIsOpen(false)}
-            />
+      {/* Accessibility Menu Drawer - Static & Pinned to side with high z-index */}
+      {isOpen && (
+        <div className="fixed inset-0 z-[9999] flex select-none" dir="rtl">
+          {/* Backdrop click to close */}
+          <div 
+            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            onClick={() => setIsOpen(false)}
+          />
 
-            {/* Menu Container */}
-            <motion.div
-              initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 200 }}
-              className="relative w-80 sm:w-96 bg-[#0c0c0c] border-e border-white/5 h-full shadow-[5px_0_30px_rgba(0,0,0,0.5)] flex flex-col justify-between pointer-events-auto z-10 p-6"
-            >
-              <div>
-                {/* Header */}
-                <div className="flex justify-between items-center pb-4 border-b border-white/5 mb-6">
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-5 h-5 text-[#d4a853]" />
-                    <h2 className="text-lg font-black text-white">התאמות נגישות</h2>
-                  </div>
-                  <button 
-                    onClick={() => setIsOpen(false)}
-                    className="p-1 text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
-                  >
-                    <X className="w-5 h-5" />
-                  </button>
+          {/* Menu Container (Static, no animations, pinned left, scrolling inside) */}
+          <div className="relative w-80 sm:w-96 bg-[#0c0c0c] border-e border-white/10 h-full shadow-[5px_0_30px_rgba(0,0,0,0.8)] flex flex-col justify-between z-10 p-6 overflow-y-auto">
+            <div>
+              {/* Header */}
+              <div className="flex justify-between items-center pb-4 border-b border-white/5 mb-6">
+                <div className="flex items-center gap-2">
+                  <Accessibility className="w-5 h-5 text-[#d4a853]" />
+                  <h2 className="text-lg font-black text-white">התאמות נגישות</h2>
                 </div>
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer border border-white/15 flex items-center justify-center"
+                  aria-label="סגור תפריט"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
 
-                {/* Option Groups */}
-                <div className="space-y-6">
-                  {/* Size adjustments */}
-                  <div>
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">גודל הטקסט</h3>
-                    <div className="grid grid-cols-3 gap-2">
-                      <button
-                        onClick={() => setFontSizeSetting("normal")}
-                        className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
-                          settings.fontSize === "normal"
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        רגיל
-                      </button>
-                      <button
-                        onClick={() => setFontSizeSetting("large")}
-                        className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                          settings.fontSize === "large"
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <ZoomIn className="w-3.5 h-3.5" />
-                        גדול
-                      </button>
-                      <button
-                        onClick={() => setFontSizeSetting("xlarge")}
-                        className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-1 ${
-                          settings.fontSize === "xlarge"
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <ZoomIn className="w-3.5 h-3.5" />
-                        ענק
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Contrast and visual adjustments */}
-                  <div>
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">ניגודיות ומראה</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => toggleSetting("monochrome")}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                          settings.monochrome
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <span>גווני אפור</span>
-                      </button>
-                      <button
-                        onClick={() => toggleSetting("highContrast")}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                          settings.highContrast
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <span>ניגודיות גבוהה</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Text features */}
-                  <div>
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">עזרי קריאה</h3>
-                    <div className="grid grid-cols-2 gap-2">
-                      <button
-                        onClick={() => toggleSetting("readableFont")}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                          settings.readableFont
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <Type className="w-3.5 h-3.5 shrink-0" />
-                        <span>פונט קריא</span>
-                      </button>
-                      <button
-                        onClick={() => toggleSetting("highlightLinks")}
-                        className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                          settings.highlightLinks
-                            ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
-                            : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
-                        }`}
-                      >
-                        <Link className="w-3.5 h-3.5 shrink-0" />
-                        <span>הדגשת קישורים</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Performance & Motion */}
-                  <div>
-                    <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">אנימציות וריצודים</h3>
+              {/* Option Groups */}
+              <div className="space-y-6">
+                {/* Size adjustments */}
+                <div>
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">גודל הטקסט</h3>
+                  <div className="grid grid-cols-3 gap-2">
                     <button
-                      onClick={() => toggleSetting("stopAnimations")}
-                      className={`w-full py-2.5 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
-                        settings.stopAnimations
+                      onClick={() => setFontSizeSetting("normal")}
+                      className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer ${
+                        settings.fontSize === "normal"
                           ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
                           : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
                       }`}
                     >
-                      <Sparkles className="w-3.5 h-3.5 shrink-0" />
-                      <span>עצירת אנימציות וריצודים</span>
+                      רגיל
+                    </button>
+                    <button
+                      onClick={() => setFontSizeSetting("large")}
+                      className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                        settings.fontSize === "large"
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <ZoomIn className="w-3.5 h-3.5" />
+                      גדול
+                    </button>
+                    <button
+                      onClick={() => setFontSizeSetting("xlarge")}
+                      className={`py-2 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-1 ${
+                        settings.fontSize === "xlarge"
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <ZoomIn className="w-3.5 h-3.5" />
+                      ענק
                     </button>
                   </div>
                 </div>
-              </div>
 
-              {/* Drawer Footer Actions */}
-              <div className="space-y-3 pt-4 border-t border-white/5">
-                <button
-                  onClick={() => setShowDeclaration(true)}
-                  className="w-full py-2.5 bg-white/3 hover:bg-white/6 text-white text-xs font-bold rounded-xl border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <FileText className="w-4 h-4 text-[#d4a853]" />
-                  <span>הצהרת נגישות של האתר</span>
-                </button>
-                <button
-                  onClick={resetSettings}
-                  className="w-full py-2.5 bg-[#d4a853]/10 hover:bg-[#d4a853]/15 text-[#d4a853] text-xs font-bold rounded-xl border border-[#d4a853]/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
-                >
-                  <span>איפוס הגדרות נגישות</span>
-                </button>
+                {/* Contrast and visual adjustments */}
+                <div>
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">ניגודיות ומראה</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => toggleSetting("monochrome")}
+                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                        settings.monochrome
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <span>גווני אפור</span>
+                    </button>
+                    <button
+                      onClick={() => toggleSetting("highContrast")}
+                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                        settings.highContrast
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <span>ניגודיות גבוהה</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Text features */}
+                <div>
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">עזרי קריאה</h3>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      onClick={() => toggleSetting("readableFont")}
+                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                        settings.readableFont
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <Type className="w-3.5 h-3.5 shrink-0" />
+                      <span>פונט קריא</span>
+                    </button>
+                    <button
+                      onClick={() => toggleSetting("highlightLinks")}
+                      className={`py-2 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                        settings.highlightLinks
+                          ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                          : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                      }`}
+                    >
+                      <Link className="w-3.5 h-3.5 shrink-0" />
+                      <span>הדגשת קישורים</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Performance & Motion */}
+                <div>
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-wider mb-3">אנימציות וריצודים</h3>
+                  <button
+                    onClick={() => toggleSetting("stopAnimations")}
+                    className={`w-full py-2.5 px-3 text-xs font-bold rounded-lg border transition-all cursor-pointer flex items-center justify-center gap-2 ${
+                      settings.stopAnimations
+                        ? "bg-[#d4a853] text-[#1c1407] border-[#d4a853]"
+                        : "bg-white/3 border-white/5 text-white/80 hover:bg-white/5"
+                    }`}
+                  >
+                    <Sparkles className="w-3.5 h-3.5 shrink-0" />
+                    <span>עצירת אנימציות וריצודים</span>
+                  </button>
+                </div>
               </div>
-            </motion.div>
+            </div>
+
+            {/* Drawer Footer Actions */}
+            <div className="space-y-3 pt-4 border-t border-white/5">
+              <button
+                onClick={() => setShowDeclaration(true)}
+                className="w-full py-2.5 bg-white/3 hover:bg-white/6 text-white text-xs font-bold rounded-xl border border-white/5 hover:border-white/10 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <FileText className="w-4 h-4 text-[#d4a853]" />
+                <span>הצהרת נגישות של האתר</span>
+              </button>
+              <button
+                onClick={resetSettings}
+                className="w-full py-2.5 bg-[#d4a853]/10 hover:bg-[#d4a853]/15 text-[#d4a853] text-xs font-bold rounded-xl border border-[#d4a853]/20 transition-all flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <span>איפוס הגדרות נגישות</span>
+              </button>
+            </div>
           </div>
-        )}
-      </AnimatePresence>
+        </div>
+      )}
 
       {/* Accessibility Declaration Modal */}
       <AnimatePresence>
         {showDeclaration && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md" dir="rtl">
+          <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/60 backdrop-blur-md" dir="rtl">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -368,13 +361,13 @@ export default function AccessibilityWidget() {
                 </div>
                 <button 
                   onClick={() => setShowDeclaration(false)}
-                  className="p-1 text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer"
+                  className="p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/5 transition-colors cursor-pointer border border-white/15 flex items-center justify-center"
                 >
                   <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* Modal Content (Hebrew accessibility declaration matching Israeli regulation 35) */}
+              {/* Modal Content */}
               <div className="text-white/80 text-xs md:text-sm space-y-4 leading-relaxed pr-1 select-text">
                 <p>
                   סוכנות <strong>VOOM</strong> (העוסקת בשירותי קריאייטיב, קופירייטינג, בניית אתרים ואוטומציה לעסקים) רואה חשיבות רבה במתן שירות שוויוני, נגיש ומכבד לכלל הגולשים באתר, כולל אנשים עם מוגבלות.

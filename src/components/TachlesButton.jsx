@@ -17,20 +17,15 @@ export default function TachlesButton() {
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1.5, type: "spring", stiffness: 180 }}
-      whileHover={{ scale: 1.08 }}
+      whileHover={{ scale: 1.06 }}
       whileTap={{ scale: 0.95 }}
-      className="fixed bottom-6 left-6 z-50 group flex items-center bg-black border border-[#d4a853]/60 text-white font-black px-6 py-4 rounded-full shadow-[0_0_25px_rgba(0,0,0,0.9)] backdrop-blur-md transition-all duration-300 animate-vibrate"
+      className="fixed bottom-6 left-6 z-50 group flex items-center bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] text-[#1c1407] font-black px-6 py-3.5 rounded-full shadow-[0_8px_30px_rgba(212,168,83,0.35)] hover:shadow-[0_12px_40px_rgba(212,168,83,0.6)] cursor-pointer transition-all duration-300 animate-float-breathing"
     >
-      <span className="text-xs md:text-sm tracking-[0.12em] font-black uppercase text-transparent bg-clip-text bg-gradient-to-r from-[#f0d78a] via-[#d4a853] to-[#b8934a]">
-        ⚡ תכלס, מה יש?
+      <span className="text-xs md:text-sm tracking-[0.05em] font-black uppercase">
+        בואו נדבר תכלס
       </span>
-      {/* Ripple ring animation around button */}
-      <span className="absolute inset-0 rounded-full border border-[#d4a853]/40 animate-ping opacity-60 scale-105 pointer-events-none" />
-      <span className="absolute -top-1 -left-1 flex h-2 w-2">
-        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#d4a853] opacity-75"></span>
-        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#d4a853]"></span>
-      </span>
+      {/* Shiny border outline */}
+      <span className="absolute inset-0 rounded-full border border-white/30 pointer-events-none scale-95" />
     </motion.button>
   );
 }
-
