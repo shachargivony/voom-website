@@ -32,36 +32,46 @@ const fadeUp = {
   })
 };
 
-// Magnetic button hook
+// Magnetic button component with active distance attraction
 function MagneticButton({ children, className, onClick }) {
+  const ref = useRef(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
-  const springConfig = { damping: 15, stiffness: 150 };
+  const springConfig = { damping: 12, stiffness: 120 };
   const springX = useSpring(x, springConfig);
   const springY = useSpring(y, springConfig);
 
-  const handleMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const clientX = e.clientX - rect.left - width / 2;
-    const clientY = e.clientY - rect.top - height / 2;
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const bx = rect.left + rect.width / 2;
+      const by = rect.top + rect.height / 2;
+      const dx = e.clientX - bx;
+      const dy = e.clientY - by;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      const threshold = 180; // capture radius in pixels
 
-    x.set(clientX * 0.35);
-    y.set(clientY * 0.35);
-  };
+      if (distance < threshold) {
+        // Magnetic pull: stronger pull when closer
+        const power = (1 - distance / threshold); // 0 to 1
+        x.set(dx * power * 0.45);
+        y.set(dy * power * 0.45);
+      } else {
+        x.set(0);
+        y.set(0);
+      }
+    };
 
-  const handleLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [x, y]);
 
   return (
     <motion.button
+      ref={ref}
       style={{ x: springX, y: springY }}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
       whileTap={{ scale: 0.95 }}
       onClick={onClick}
       className={className}
