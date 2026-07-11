@@ -227,7 +227,7 @@ export default function InteractiveSection() {
         
         {/* Section Header */}
         <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-4xl font-black text-white">בדיקת התאמה לעבודה משותפת</h2>
+          <h2 className="text-2xl md:text-4xl font-black text-white">שאלון היכרות ובדיקת התאמה</h2>
           <p className="text-white/50 text-xs md:text-sm mt-2 max-w-lg mx-auto leading-relaxed">
             אנו ב-VOOM מאמינים בשותפות אמת ופוקוס מוחלט על מדד ה-ROI, ולכן איננו עובדים עם כל עסק. מלאו את האבחון הקצר לבדיקת התאמה מול מודל העבודה שלנו.
           </p>
@@ -246,10 +246,10 @@ export default function InteractiveSection() {
               >
                 <div className="pb-3 border-b border-white/5">
                   <h3 className="text-base md:text-lg font-black text-white leading-snug">
-                    פתחו את בדיקת ההתאמה האישית
+                    פתחו את שאלון ההיכרות ובדיקת ההתאמה
                   </h3>
                   <p className="text-white/40 text-xs mt-1">
-                    הזינו פרטים קצרים כדי להתחיל באבחון ולקבל תוצאת התאמה מיידית בסיום.
+                    הזינו פרטים קצרים כדי להתחיל בשאלון ולקבל תוצאת התאמה מיידית בסיום.
                   </p>
                 </div>
 
