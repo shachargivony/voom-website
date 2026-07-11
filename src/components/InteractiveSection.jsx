@@ -85,14 +85,43 @@ export default function InteractiveSection() {
   }, [currentStep, answers]);
 
   const handleStartQuiz = async () => {
-    if (!contactData.name.trim() || !contactData.phone.trim() || !contactData.email.trim()) {
+    const name = contactData.name.trim();
+    const phone = contactData.phone.trim();
+    const email = contactData.email.trim();
+
+    if (!name || !phone || !email) {
       setValidationError("יש למלא את כל השדות כדי להמשיך.");
       return;
     }
+
+    // Validate mobile phone: must start with 05 and have exactly 10 digits
+    const cleanPhone = phone.replace(/[\s-()]/g, '');
+    const phoneRegex = /^05\d{8}$/;
+    if (!phoneRegex.test(cleanPhone)) {
+      setValidationError("מספר הטלפון שהוזן אינו תקין. יש להזין מספר טלפון נייד תקין (לדוגמה: 0501234567).");
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setValidationError("כתובת האימייל שהוזנה אינה תקינה. יש להזין כתובת אימייל בפורמט תקין (לדוגמה: name@domain.com).");
+      return;
+    }
+
     if (!contactData.agreed) {
       setValidationError("יש לאשר את תנאי הדיוור בוואטסאפ ובמייל כדי להתחיל.");
       return;
     }
+
+    // Save cleaned validated inputs
+    setContactData({
+      name,
+      phone: cleanPhone,
+      email,
+      agreed: contactData.agreed
+    });
+
     setValidationError("");
     setIsSubmittingLead(true);
 
@@ -100,11 +129,11 @@ export default function InteractiveSection() {
       // Immediate submission of contact details even if the user exits mid-quiz
       // Aligned service parameter with the enum in Entities/Lead.txt to pass validation
       await base44.entities.Lead.create({
-        name: contactData.name,
-        phone: contactData.phone,
-        email: contactData.email,
+        name,
+        phone: cleanPhone,
+        email,
         service: "other",
-        message: "התחיל מילוי שאלון התאמה לליווי. אישר דיוור בוואטסאפ ובמייל."
+        message: "התחיל מילוי שאלון היכרות והתאמה. אישר דיוור בוואטסאפ ובמייל."
       });
     } catch (err) {
       console.error("Failed to submit initial questionnaire lead:", err);
